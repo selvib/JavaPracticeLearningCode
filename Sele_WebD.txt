@@ -1,0 +1,883 @@
+Selenium Will Scan From Top Left....
+Selenium automates browser its not a tool...its part library of Java
+
+Selenium
+-----------
+1.Selenium WebDriver --If we want to create robust and browser-based regression automation suites and tests....its successor of Selenium Remote Control which is officially deprecated
+2.Selenium IDE --Is record and play back tool
+
+WebElement --driver.findElement(By.xpath("//a[@class='cart-icon']/child::img[1]")).click();
+Locator -- By.xpath("//a[@class='cart-icon']/child::img[1]")
+
+What is Xpath?
+------------------
+Xpath is generally how we traverse through the nodes to reach to desired specific point
+
+
+Identifying Objects with Text using Xpath Locators:
+--------------------------------------------------------------
+//*[@text()=' Selenium ']
+--In Agile we dont have application to write the testcase we will be provided UI of the Page in this situation we have to create the xpath based on the text which is present on the element like for the text box elements.......
+--When we dont have the HTML code we dont know the tagname there we can use *..... Text in the HTML has space before and after the element.....
+--We should use this when we dont have any attribute or dont have application only have UI
+
+Difference between Relative and Absolute Xpath? :---
+-------------------------------------------------------------
+Relative Xpath:
+--Whenever we identify the element with xpath without depending upon its Parent node then we can say it is a Relative Xpath........Its depend upon Parent 
+
+Absolute Xpath:
+--Traverse to the Specific element with help of Parent node......Starting from parent and reaching to the child with parent/child format is Absolute xpath....
+
+--Relative is preferred because any of the child node is changed entire xpath will be affected and we cant use that xpath to identify the element uniquely.... But in Relative Xpath we use the xpath with its attribute of that element ......
+
+--Absolute Xpath: It contains the complete path from the Root Element to the desire element. Relative Xpath: This is more like starting simply by referencing the element you want and go from the particular location. You use always the Relative Path for testing of an element.
+
+--------------------------------------------------------------------------------------------------------------------------
+Locators 
+--------------------------------------------------------------------------------------------------------------------------
+Used To Identify The Web Element/Web Object On The Web Page/ On An UI... Selenium Recognizes All The Web Element By The Locators.. With Locotors Only Selenum Will Interact With Web Elements.
+
+1. ID,
+2. ClassName,
+3. Name,
+4. TagName,
+5. LinkText,
+6. Partial LinkText
+7. Xpath,
+8. Css Selectors.
+These Are The Attributes Of  HTML .... 
+
+input,div,a,select these are the tags of HTML.........
+
+*** ID:
+Sometimes Using Id Is Not Reliable 'Cause If It Is A Alphanumeric_Id we Should Not Use It May Vary If We Refresh The Browser Or On Different Browser.
+
+*** LinkText:
+If You Have Any Links On Your WP We Can Use LinkText To Identify That Link... All Links Will Have The Tag Which Is Anchor A Tag ... Its Enough To Pass The Text In The A Tag.... Not A Link Value...
+
+ex--
+driver.findElement(By.linkText("Multiple Windows")).click();
+
+ex-- href locator
+driver.findElement(By.cssSelector("a[href*='windows']")).click();
+
+**Classes Should Not Have A Spaces.. Compound Classes Cannot Be Accepted..Like That Error We Will Get..***
+
+*** Make Sure You Are Giving Unique Attribute If There Are Any Duplicate Name It Will Catch First Index Only 
+And Will Ignore All Other  Indexes If They Have Same Name Even IF You Pass That Name To Second Index It Will Pass That In First Index And Ignores Rest Others..... Because Selenium Scan From Top Left....  It Will Not Throw Any Error... 
+
+ --Xpath engines are different in each browser, hence make them inconsistent
+
+Is CSS faster than XPath?
+-------------------------------
+3 Answers. CSS selectors perform far better than Xpath and it is well documented in Selenium community. ... Xpath engines are different in each browser, hence make them inconsistent. IE does not have a native xpath engine, therefore selenium injects its own xpath engine for compatibility of its API
+
+Why XPath is not recommended?
+--------------------------------------
+Even the web application is big, then modifying a huge amount of XPATH is cumbersome and error prone. This refactoring can be avoided to a certain extent by carefully choosing relative XPATH and right locator. However, it can't be completely avoided. That's the reason, it is advised to use other locators when possible.
+
+Which locator is faster in selenium?
+-------------------------------------------
+Using ID Locator in Selenium WebDriver is the fastest and the most reliable among all the locators. ID's are supposed to be unique to each element, making the ID locator as a dependable choice
+
+Can selenium interact with hidden elements?
+-----------------------------------------------------
+Selenium has been specifically written to NOT allow interaction with hidden elements. ... However, Selenium does allow you to execute Javascript within the context of an element, so you could write Javascript to perform the click event even if it is hidden.
+
+ XPath 
+--------
+1.Native Or Absolute: Its Actual Path Of UI Element, 
+2.Relative:It Is Relative To Some Object... If We Change Any Web Element Still Selenium Script Will Be Able To Identify That Element In Relative XPath......Performance Is Bit Slow Than Native Xpath 'Cause It Has To Search Every Path That We Have Defined In Relative Xpath
+
+Xpath is The Path Of The Specific Element On The Web Page
+We Can Get XPath From Chrome And FireFox ... We Can Use Customized XPath....
+Firepath Deprecated From Firefox But In Degrade Version Of FireFox We Can Use..... If You Try To Copy Xpath From Firefox Make Sure It Should Not Have
+Html In The XPath Name Sometimes Its Not Reliable .... FireFox Only Has This Instability.. Switch Browser To get Another One
+
+CSS Selector:
+------------------
+Cascading Style Sheets.... This Is Faster And Simpler Than Xpath
+Css Is Faster Than Xpath
+Chrome Does Not Give CSS Selector By Right Clicking On The Highlighted One... At Bottom In Tool Bar Its Presented... But In FireFox We Can Get By Right Clicking .... 
+
+How To Validate Xpath And Css Accuracy From Browser Tools:----
+$(" ")---> For Css Selector
+$X(" ") ----> For Xpath
+
+
+Customized_Xpath()
+-------------------------
+Syntax:--
+--------
+1.//tagName[@Attributes='Value'] 
+---->Here It Will Accpet Only That Given Tag Name Attributes
+
+2.//tagName[@Attributes='Value' And  @Attributes='Value' ]
+ -->Multiple Values For Same tagName....
+Or
+3.//*[@Attributes='Value'] 
+--->Which Means Accept Any Tag Name For The Given Attribute Value.....When Tag Name Is Not Fixed Keep On Change We Can Give * As Tag Name
+
+Customized_CSS Selector
+--------------------------------
+Syntax..
+---------
+
+1.tagName[Attribute='Values']
+
+2.tagname#Id or #id
+ ----> You Can Skip Tag Name --->This what Browser Will Give....
+
+3.tagName.ClassName or .classname
+
+For Finding 1 Of 1 For Class Name Give Dot before class name, # before Id Name For CSS Selector..
+****If you have gap in between the class name or id remove space and give Dot Instead of Space***
+
+4.[Attributes='Values']
+--Without tag format in Css ... This will accept any tag
+
+--Identify the correct syntax for customized CSS and Xpath supported by Selenium WebDriver.
+CSS --    tagname[attribute='value']
+Xpath -- //tagname[@attribute='value']
+
+--------------------------------------------------------------------------------------------------------------------------
+ Regular Expression
+--------------------------------------------------------------------------------------------------------------------------
+
+1. Xpath
+-------------
+
+1. //tagName[Contains(@attribute,'Value')] 
+When We Dont Have A Text Value For Attributes  
+Class=" G18_H$_56-Hu 3m 8A">Create An Account -- Pass This Text Value
+
+(Or)
+//tagName[text()='Value')] 
+
+2. //TagName[starts-widh(@attribute,' Value ')] 
+WhereEver Part Of Object Of Is Keep Changing We Can This Regular Expression..
+
+End-Widh Is Not Working For Xpath.
+Start-Widh Only Working For Xpath.
+
+2. Css
+---------
+1.tagName[attribute*= 'Value')]
+---------------------------------------
+Ex:
+-- Class=" G18_H$_56-Hu 3m 8A">Create An Account -- Pass This Text Value
+When We Dont Have A Text Value For Attributes,But Passing Value Should Be A Text So We Can Identify The Object Uniquely  
+
+^ --> Starts With
+----------------------
+tagName[Attributes^= ' Values ']
+
+$ -->Ends With
+-------------------
+tagName[Attributes$= ' Values ']
+
+
+Difference Between Xpath And Css 
+--------------------------------------------
+
+---With XPath we can search elements backward or forward in the DOM hierarchy while CSS works only in a forward direction. This means that with XPath we can locate a parent element using a child element.
+ -- DOM: Document Object Model
+
+
+--------------------------------------------------------------------------------------------------------------------------
+Selenium WebDriver
+--------------------------------------------------------------------------------------------------------------------------
+
+Is Selenium a tool or API?
+--------------------------------
+--First and foremost, Selenium WebDriver is not a standalone testing tool. It's an API that allows you to programmatically interact with a browser the way a real user would. Although Selenium is primarily used to help test a web application but can be used for any task where you need browser automation.
+
+What do you mean by stand alone?
+-------------------------------------------
+-- A standalone device is able to function independently of other hardware. This means it is not integrated into another device. Standalone can also refer to a software program that does not require any software other than the operating system to run. This means that most software programs are standalone programs
+
+--A standalone application is one that can be executed independently and would execute and produce some output either as a UI or on the JVM console. Any java class with a main method can be considered a mini standalone java application.
+
+There are three types Java based applications.
+-----------------------------------------------------
+1. Stand alone application
+2. Web Application
+3. Enterpise Application
+
+
+--Webdriver Is An Interface....It Contains Only Multiple Methods... Whenever Browser Class Will Implement The WebDriver The Browser Class Obj Will Have The All The Implementation Of The All Methods What Webdriver Has... Selenium-WebDriver Actually Developed To Support Dynamic Web Pages Where Page Element Will Change Oftenly Eventhough You Are Not Reloding The Pages...
+Major Implementation Of WebDriver Is To Provide API Which Means Set Of Library It Contais  Methods Through With We Can Interact With Any Browser....
+WebDriver Provides Lots OF Methods Through That We Can Directly Communicate With Browser And We Can Get Response From The Browser...
+***Each Browser Has Native Method... Some Language Supporting That API.... With That Language We Can Call API....
+So We have To Create Obj Of Browser Class Which Browser You Are Using...
+
+ChromeDriver driver = new ChromeDriver()
+WebDriver driver = new WebDriver()
+
+System.setProperty
+-----------------------
+System.setProperty("Key","Value"); - means exactly what it says. Set the system property propertyName to have the value value.
+
+Key is propertyname =Webdriver.chrome.driver is a property of ChromeDriver() class... This property is expect path of chromedriver.exe
+value=path of driver
+
+--Selenium code interacts with InternetExplorerDriver/ChromeDriver through JSON wire Protocol and then InterenteExplorerDriver will further communicate with Internet Explorer Browser. So basically, IE driver will act as a bridge between selenium code and IE Browser.
+System.setProperty is located in your system class. setProperty is static string method where you can store your values based on key-value pair.
+“System.setProperty(“propertyName”, “value”)” is exactly what it says. That is, it sets the system property ‘propertyName' to have the value 'value'.
+In Selenium, you use this method because the browser doesn’t have a built-in executable to run the automation code so you will need a Chrome/IE/Gecko(according to requirement) driver server for communicating your Selenium code to the browser.
+In simple words, to set the path of the driver for the respective browser you will need the system.setProperty. For eg.
+
+System.setProperty("webdriver.ie.driver", "Path of your Driver");
+WebDriver driver = new InternetExplorerDriver();
+driver.get("http://seleniumhq.com");
+
+--This will launch selenium official site in Internet Explorer using Internet Explorer driver where the initialisation of the driver is handled by system.setproperty method.
+This has to be the first line of code needs to be executed in your selenium script before any test method to initialise the driver.
+
+System:-
+----------
+--System class is a final class in Java, that cannot be instantiated. It provides the functionality for standard input, output and error streams. As well as access to environment variables and properties, loading files and libraries. Typically you use this when you want to monitor applications, or get the environment details.
+It generally is used to get information regarding the JVM, as well as running the garbage collector explicitly.
+
+setProperty():
+-----------------
+--That is, it sets the system property 'propertyName' to have the value 'value'. In selenium, you use this method because the browser doesn't have a built-in server to run the automation code so you will need a Chrome/IE/Gecko(according to requirement) driver server for communicating your Selenium code to the browser.
+
+WebDriver Methods:
+---------------------------
+1.getCurrentUrl()
+--Used to validate if you are landed on correct URL
+
+2.getTitle()
+----Used to validate if your Page title is Correct
+
+3.getPagesource()
+--Used to retrive the code of the page where you are landed...Sometimes we cant get Pagesource by right clicking on the Page in Bank application like that
+
+4.navigate().back()
+--Navigate backs from the page where we are but this is not working on Chrome
+
+5.navigate.forward()
+
+6.driver.close()
+--it closes current browser/Current window
+Ex:If we opened a browser we hit a Url that will open and if you click on any link on the current page that link will be opened in another window with new browser and if you click link on second window that link will be opened in new window like that it goes on..... Here if we give driver.close() it will close the current window where you are I.e here it closes third window........If we use this driver.quit() on child window it closes all the child and parent window
+
+7.driver.quit()
+--it closes all the browser opened by the Selenium
+
+Seleinum WebDriver Architecture Mainly Divided Into Three Parts
+-------------------------------------------------------------------------------
+1....Language Level Bindings 
+2...Selenium WebDriver API ... API Is Common For All Browsers.. It Will Change Only The Library For Every Browser.. Library Is Method Of Selenium API..
+For Every Action We Perform On The Web Element Is Containd By The Library
+3... Drivers ..... Chrome Driver, FireFox, IE, Safari.... Those Are Such As HTML Driver.... It Works As Headless...Which Means If You Run A Test Through HTML Page Your UI Page Will Not Launch.... Since UI Page Is Not Launching Performance Will Be Very Fast.. If UI Page Is Lanching Performance Will Be Slow..
+We Have Separate Browser For Different Browser... Its Has all The Supporting Things For The Correspanding Browser
+
+Chrome Driver, Firefox Driver, IE Driver Are Class....
+
+
+Chrome Driver I/F
+------------------------
+Chrome Driver Is A Class And Its Implements Some Interface Internally .....
+
+
+Chrome Driver Has The Constructor Also
+--------------------------------------------------
+1. ChromeDriver()
+2. ChromeDriver(ChromeDriverService service)
+3. ChromeDriver(ChromeDriverService service, ChromeOptions options )
+4. ChromeDriver(ChromeOptions options ) ---We Can Pass Options Which Required For Automation
+
+ChromeDriver Methods
+
+--------------------------------
+Action Class Methods
+--------------------------------
+This Will Give Lots Of Methods Which Will Give Action On UI.. This Is Separate From What WebDriver Method Has... You Cannot Achive This Through Other API.... Whenever You Required  An Action To Any Mouse Related Action
+
+Select Class Methods
+--------------------------------
+This Class Methods Used To Perform All Select Action On The UI Object
+
+--------------------------------------------------------------------------------------------------------------------------
+Maven Project
+--------------------------------------------------------------------------------------------------------------------------
+Artifact ID ------Project Name
+Group ID   ------- Package Name
+Dependancy ------ Is A Tag
+
+--------------------------------------------------------------------------------------------------------------------------
+Drop Down In Selenium:
+--------------------------------------------------------------------------------------------------------------------------
+1. Static Drop Down With Select Class
+2. Dynamic Drop Down With Indexes
+3. Dynamic Drop Down With Parent Child Releationship
+4.Auto Suggestive Drop Down --
+
+Select Class For Static Drop Down
+-----------------------------------------
+Select Is A Class We have to create Obj for that.. inside Select Constructor we will pass web element locators..
+Sometimes select box look like a select box but not necessarily it will be a select box...
+How to figure out whether the select box is select box or not ... for that inspect the particular select box and check whether it has a select tag or not... all values comes under Option tag
+There Are Three Methods For Selecting Data By The Select class****
+1.selectByValue() -- Select By Value Attribute
+2.selectByText() -- From the list of option we select by Index value
+3.selectByVisible() -- Which is visible in the Select Box.
+
+Auto Suggestive Drop Down
+-----------------------------------
+This is like when we enter something it will suggest the thing which is based on what we enter...Some Times we are not able to find the locator for the option what it display .. but if you press down arrow on the keyboard we can able move on the element step by step then grab the text and we can verify  
+
+
+--------------------------------------------------------------------------------------------------------------------------
+Mouse Actions:
+--------------------------------------------------------------------------------------------------------------------------
+-- Actions class is used to do all the mouse interactions actions...
+-- For This we have " ACTIONS " class we have to create object for the action class... inside Action() 
+Constructor we have to pass driver as an argument... There are different Methods for handling mouse events...With the Obj of Action class we can call that Methods.... For every action class we have to use build() and perfor() method at the end of Action methods... Inside the methods we have to pass Locations of WebElement.....
+
+1.how to mouse over an object in selenium?
+2.performing mouse and keyboard interactions with selenium?
+3.context click on element? -- right click
+4.Double click on element?
+5.Drag and Dropping the element?
+
+build()--Build the entire action
+perform() -- perform the action
+ 
+----------------------------------------------------------------------------------------------------------------------------------------
+Child / Multiple Window_Handling
+---------------------------------------------------------------------------------------------------------------------------------------
+child window means if you click on button or link it will trigger and new window will open..now how to work with those multiple window
+though mulitple child window opens selenium will stick with parent window only.. if you want to work with child window we have to switch control  to the child window then we can work on that after that we have to go back to the parent window
+If we have third party integration in our application, if you click on the link it will open in next window Or browser tabs we have to close this window and come back to our application for this we are using Window_Handler...
+
+-- Ex
+At bottom of an application we may have youtube,twitter,gmail,
+
+For this we will getWindowHandles() method it will give window id and we have to assign this value to a variable.. One is ParentId Next is ChildId.. From the variable we will get by using Iterator....
+
+By using the window id we can move to respective child window.
+
+1.getWindowHandle()
+2.getWindowHandles() ----This Method's Return type is  Set Type.. So It Can't Be Duplicate..it will bring us all the window id which has opend like parent id, child id, sub child id ..its store in Set as String format.. stores based on the priority.. on the top parent id will be there next to that immediate window which got opened from parent window id will be there like that it goes on..
+
+Window Id = [CDwindow-7515F4A6A34EC8C1273872B503F7A885,CDwindow-FF84BD3D8C38F85D25A74F09B57D07FC, CDwindow-548531AADE2540C4DDA40137057511C4] --string value but return tye is set.
+
+How To Traverse Through The Set Value:
+---------------------------------------------------
+Iterator()--
+Used to traverse through the set value..Its a Java Method.. we need to keep on tell next() until we find our respective element
+
+Drag And Drop
+------------------
+dragAndDrop(sourceElement, targetElement)--
+This is mouse related action so we have to use Action class... create reference of Action class and call the method dragAndDrop()..
+
+Keyboard Action
+---------------------
+for opening in different tab --- shift+control+click
+for caps lock --- keydown,keys.Shift
+
+--------------------------------------------------------------------------------------------------------------------------
+Exception In Selenium
+--------------------------------------------------------------------------------------------------------------------------
+1--NoSuchElementException -- xpath itself wrong..
+2--NullPointerException -- If You forget to create object of browser driver you will get this type of exeception
+3--InvalidSelectorExeception---invalid selector: The result of the xpath expression "//*[@id='select2-drop']/ul/li/ul/li[1]/div/text()" is: [object Text]. It should be an element.
+Compound Class Is Not Permitted...which means if class have a mulitple space we call it as a compound class..we cant use that for as class name.. we can use it as xpath-----//*[@class='   ']
+--If the syntax of the locator is wrong we may get this exception
+4-- NumberFormatException --
+5 -- ElementNotInteractableException -- cant identify the element or object.. org.openqa.selenium.ElementNotInteractableException: element not interactable
+here xpath is correct but something went wrong
+6.--NoSuchSessionId --Invalid session id
+7.--IllegalArgumentException --
+8 -- InvalidElementStateException: invalid element state
+
+9 --ClassNotFoundException 
+-- It is an exception. It is of type java.lang.Exception.
+-- It occurs when an application tries to load a class at run time which is not updated in the classpath.
+-- It is thrown by the application itself. It is thrown by the methods like Class.forName(), loadClass() and findSystemClass().
+-- It occurs when classpath is not updated with required JAR files.
+
+10 --NoClassDefFoundError -- NoClassDefFoundError is an error that is thrown when the Java Runtime System tries to load the definition of a class, and that class definition is no longer available. The required class definition was present at compile time, but it was missing at runtime. 
+-- It is an error. It is of type java.lang.Error.
+-- It occurs when java runtime system doesn’t find a class definition, which is present at compile time, but missing at run time.
+-- It is thrown by the Java Runtime System.
+-- It occurs when required class definition is missing at runtime.
+
+11.*****StaleElementReferenceException--: stale element reference --  element is not attached to the page document...
+after finding the element if you refresh the page or if we do any update or if we do page navigation found element will move out from DOM again if we try to do with that element we will get this Exception....
+
+13. UnexpectedTagNameException --  Element should have been "select" but was "option"
+
+14 WebDriverExeception -- when the property does not match with node it will give this exception
+
+15.  NoSuchWindowException: no such window: target window already closed
+
+
+16.org.openqa.selenium.ElementClickInterceptedException: element click intercepted: 
+--------------------------------------------------------------------------------------------------------------------------
+WebTable
+--------------------------------------------------------------------------------------------------------------------------
+thead-- Table Head
+tr -- Table Row -- Starts from "one"
+td -- Table Column -- starts from one
+tbody -- Table Body
+1)Static WebTable --Web table which means rows is fixed will not change ...
+//*[@id="leftcontainer"]/table/child::tbody/child::tr[3]/child::td[4]
+2)Dynamic WebTable -- web table is not fixed it will keep on change ... which means row is not fixed
+
+Sub-section Element
+-------------------------
+Identify the parent when we have common locators name in the entire application.. with parent web element we can get our respective element by limiting the testing scope .. when we search with parent it will not search for the element in the entire page driver is a parent so it will search in the entire page.. our parent element will not look after that.. so our driver reference will pointing to our parent  element it will search in the respective one
+
+tagName:nth-child(i) -- used to find the specific column before the tag name have to give parent locator
+
+--------------------------------------------------------------------------------------------------------------------------
+ How to get all link from web page
+--------------------------------------------------------------------------------------------------------------------------
+
+Link is always associated with anchor tag  " a "...
+
+How to get all link from the particular section of Web Page
+-----------------------------------------------------------------------
+
+By minimizing the scope of the webdriver for particular section only..by default scope of the web driver  is for entire page
+
+How to open a link in separate page
+-------------------------------------------
+--If you try to open link in same page selenium itself does not know how to go back to parent window we have to give back control even if we give back control in the applicatin if we have 100 link we cant go and come back it will take time so this is bad practise
+--for that we can open a link in different tab (Control+Click) will a link in different tab or window.. This is Optimized way of opening window
+
+Getting title of child window
+------------------------------------
+hasNext() ---
+tells whether the next index / next window is present or not if present it will return that.. It starts from 0th Index
+next() --
+it has the window id which help us to move to next window
+
+Radio Button And Auto Suggestion Text Box
+----------------------------------------------------------
+1.we can do mouse action through Action Class .. sometimes if you are not able to  click directly through selenium API we can go with Action class.. Action class has a click method that will work...
+action.click(elements which we want to click)...
+2.by using moveToElement and click...
+action.moveElement().click().
+3.through selenium API click
+driver.findElement().click
+
+If You are not able to click with above three method we can use javascriptExecutor..
+here we can cast driver class object with javascriptExecutor now our driver has a capabality to work with javascriptExecutor
+
+Selecting Multiple CheckBox
+--------------------------------
+1.select checkbox text ... write xpath for the text of check box
+2.select checkbox ... after that write xpath for checkbox	
+
+--------------------------------------------------------------------------------------------------------------------------
+Add Cookie In Selenium
+--------------------------------------------------------------------------------------------------------------------------
+In Selenium we have a Cookie class through that we can give the name of the cookie and value by passing as a parameter...
+Cookie cookie = new Cookie("name", "value" ); .......
+driver.manage().addCookie();
+we can add the cookie which we have created to the web application by using addCookie() method...
+getCookie()....
+This method will give set of cookie which are in the web application...
+driver.manage().getCookie()..... 
+By using for loop we will get cookies..
+
+
+DeleteCookie In Selenium
+--------------------------------
+we can delete particular cookie or all cookie from the application..
+deleteCookieNamed()----by this we will delete a particular cookie by name of the cookie..
+deleteAllCookie()---by this we will delete all the cookie from the web application
+
+--------------------------------------------------------------------------------------------------------------------------
+JavaScriptExecutor
+--------------------------------------------------------------------------------------------------------------------------
+Sometimes we can do click,sendKeys through this coz normal click,sendKeys may not work ...
+
+I. Scroll In Selenium
+----------------------
+we can scroll vertically, we can scroll to pixel or to some object ....
+for scrolling option we will use JavaScriptExecutor...
+-- First we have to cast our whatever driver object by JavaScriptExecutor...
+
+executeScript()
+-------------------
+This is overloaded method.. either we can pass single argument or two argument...
+
+1. This will go to the till end vertically
+----------------------------------------------
+ ****((JavaScriptExecutor)driver).executeScript("window.scrollTo(0, document.body.scrollHeight)")***
+1 a). This will come up vertically
+***executeScript("window.scrollTo(0,  -document.body.scrollHeight)")****
+
+2. This will go till the pixel specified
+---------------------------------------------
+***executeScript("window.scrollBy(0, 1500)")****
+2 a). This will come back till the pixel specified
+***executeScript("window.scrollBy(0, 1500)")****
+
+3.This will go down till the web element or UI object specified
+----------------------------------------------------------------------------
+((JavaScriptExecutor)driver).executeScript("argument[0].scrollIntoView(true);", location of the web element)
+
+II.To grab the hidden text value
+-------------------------------------
+--JavaScriptExecutor DOM also used to grab the text of the element from the auto suggestive drop down box.. sometimes option of the auto suggestive box is hidden.. when you try to do inspect you cant get.. when you try to print the text of the option on the console you will get nothing.. that time we can go with JavaScriptExecutor.
+--JavaScriptExecutor DOM:selenium cannot identify the hidden elements -(Ajax implementation).. by investigating of properties of object we can come to know if it is a hidden element or not..
+
+-- .Value
+Value is used to get the text of element in js..we have write it will not give suggestion..
+ex--
+String value = "document.getElementById(\"autocomplete\").value;"; ----first we have to identify this on the console of the DOM.. then we store it in the variable
+
+--return
+String value = "return document.getElementById(\"autocomplete\").value;"; -- in java we use syso to print in js we use return to retrive the value.
+
+--getAttribute ()
+ We Can get Text by getAttribute () by passing value as argument..but if it is a hidden element we cant get the text by getText()..
+
+ZoomIn and ZoomOut In Selenium
+---------------------------------------------
+we dont have executeScript() directly in the  any browser drivers... so first we have to cast the browser driver reference with the javaScriptExecutor and call the executeScript() this method...
+When we cast the driver with javaScriptExecutor all method in the javaScriptExecutor will come to the object reference...
+why zoomIn is required?
+sometimes we have to capture entire image in the app we have zoomIn.. otherwise selenium will not capture entire image .. for screenshot also we hve to use zoomIn 
+
+--------------------------------------------------------------------------------------------------------------------------
+IFrame
+--------------------------------------------------------------------------------------------------------------------------
+What is Iframe:
+-------------------
+--Its a componet or its a specific container this is independent of HTML code even frame is a HTML code that is separately prepared and they host it on the web page as a container.. when developer developing the application they will leave the space for Frame then they will bring the frame componet and deploy it here.. when there is frame in application selenium cant identify it . we cant handle it in normal fashion... so we need to tell to selenium that this is frame and handle it accordingly otherwise selenium will consider as normal web browser HTML and look for the frame object in the entire HTML code.
+--In the context of web browser,a frame is part of web page or browser window which displays content independent of its container, with the ability to load content independently.the HTML or media elements that go in a frame may or may not come from the same web site as the other elements of content on display.		
+
+
+-- To work with Iframe Object there is a API called switchTo ... we cant directly use our driver's method on iframe obj..
+-- Sometimes iframe attribute and non iframe attribute may have same object ..In this situation if we take xpath or any other locating option it will give both element ..but if we mention switchto it will return the element what is inside that iframe here also we can use index value .. 
+-- To get a required element or object we have to use index value.. if it has same object we have to use index value to identify the attribute...
+-- otherwise we can locate the element by any locators after mentioning switchTo..
+-- we cant go down from iframe which means we cant write xpath from iframe ...
+-- once we worked with iframe element if we want to work with non iframe element we have to switch back to default content..
+--driver.switchTo().defaultContent();
+
+There are three ways to identify the iframe or switch to the iframe
+-----------------------------------------------------------------------------
+1. by index num -- frame(int) -- some times we may have one or more iframes in web application --index start from 0.
+2. by iframe name -- frame(String) -- name of the iframe
+3. by object  -- frame(WebElement) -- object of the iframe..
+
+Frame Inside Another Frame
+-----------------------------------
+--Sometimes we may have a frame inside the another frame
+--In this situation first we have to switchTo parent frame after that switchTo child frame...
+--we can use any combination for switchTo frame
+
+--------------------------------------------------------------------------------------------------------------------------
+Alert Box In Selenium
+--------------------------------------------------------------------------------------------------------------------------
+This is JavaScript's Alert Box.. used to handle web application's alret pop up.. selenium itself cant handle.. for other pop-up like window's pop-up and net work's pop-up cant be handled by this js alrert box...
+For handling Alert box also we have to switch our driver reference to alert interface..
+There is two methods for accepting and canceling the alert box in selenium..
+1. accept() -- for accepting alert box
+2. desmiss() -- for canceling the alert box
+
+JavaScriptExecutor for Clicking and Sending values Instead of driver function
+--------------------------------------------------------------------------------------------
+
+Type below on the console which is next to Elements on the top left corner
+document.getElementById()..setAttribute('value','value of value') -- we can find by id or name or class like etc..
+we no need to find 1 of 1 when we find element on the console..
+
+
+How to verify Radio button is clicked or not
+-----------------------------------------------------
+-- by using class name .. when we click on the Radio button we will get a checked text on the class.. if we not click on the Radio button we wont get the checked on the class name..
+
+b4 running checked radio class name -- ui-checkboxradio-label ui-corner-all ui-button ui-widget ui-checkboxradio-radio-label ui-checkboxradio-checked ui-state-active -- this is checked radio button class name
+
+uncliked radio button class --- ui-checkboxradio-label ui-corner-all ui-button ui-widget ui-checkboxradio-radio-label -- this is uncheked radio button class name ..
+
+if you look at both class name " ui-checkboxradio-checked ui-state-active " this thing has added in the checked radio button class name .. by this we can verify whether the Radio button is clicked or not...
+
+getAttribute(class) -- by this we can get class name..
+
+class_Name.contains("ui-checkboxradio-checked ui-state-active ");
+-- for verifying whether the class contains ui-state-active or not .. we used contains() method .. we dont use containsequls() method cause we are not sure of the class name it may varry..
+
+after running class name -- ui-checkboxradio-label ui-corner-all ui-button ui-widget ui-checkboxradio-radio-label ui-state-focus ui-visual-focus ui-checkboxradio-checked ui-state-active
+
+Check Box And Number Of CheckBox Present In WA
+----------------------------------------------------------------
+
+To get number of checkbox in the web application we can use common attribute which is present in all the web element ..
+
+--------------------------------------------------------------------------------------------------------------------------
+TestNG
+--------------------------------------------------------------------------------------------------------------------------
+TestNG is a framework or library
+
+Assertion
+------------
+It will help us to validate if the result whatever selenium return is expected or not..
+If not it will fail the test .. TestNG gives us the facility of Assertion Concept
+
+Assert.assertFalse(condition); --condition also should return false.. assertFalse() method also expecting false from the conditon.. If the condition return true it will fail the testcase..when it finds true instead of False it will stop execution there itself...because its expecting false to validate in validation it gets true so fails the test case.
+Assert.assertTrue(condition); --this method always expecting to return True whatever you pass inside the method
+
+Assert.assertEquals(actual,expected)--this method will compare two arguments actual with expected one...first one is what selenium is returning second another one is what you are expecting..
+
+
+--------------------------------------------------------------------------------------------------------------------------
+Synchronization Usage
+--------------------------------------------------------------------------------------------------------------------------
+what was the ideal strategy of using Synchronization in selenium webdriver
+**************************************************************
+implicit and explicit combination of this both are ideal solutions
+When we navigate from an application to something like when we click on search button or a link it will navigate to correspanding page.. when we doing selenium if we give search element or find element after clicking on search or link sometimes it may throw an error.. because webdriver takes upto 3 seconds to load or navigate the page if we dont give waiting time to loding page and finding element it will tell i could not find the element .. This is called synchronization.. so we have to give the waiting time to load the entire page after that do the find element action..
+
+For handling synchronization we have four types of Method:
+------------------------------------------------------------------------
+1.Implicit Wait()
+
+2.Explicit Wait() 
+i --WebDriver Wait 
+ii -- FluentWait
+
+3.Thread.sleep()
+
+1.Implicit Wait() 
+-------------------
+--Whenever you click on something dont find a result quickly or dont fail immediately just wait for some seconds ..by using this method we are saying wait at global level.. when we set wait time at global is called implicit wait()..if you declare at one time on the globally it is applicable till the driver instance is active which means entire test case or till the object is kiiled.. 3seconds is common for all navigation process time.. but if you are give 5s it will not wait until 5s gets over ..it will keep on listening to our dom its html code of  web browser.. if it find it 2s it will come out from implicit wait then will do the action which is what we mentioned..Though we mentioned 5s it will not wait for 5s.. if the application opens in 3s it will come out from an implicit wait but maximum wait time is 5s.. it will keep on listen to the DOM whenever results are loaded it will come out from wait
+
+pros and cons of implicit wait
+pros-readable code
+cons-perfomance issues may not been noticed
+
+2.Explicit Wait()
+--------------------
+-- we can set this for specific element but implicit makes whatever you like it applies globally .. this explicit will not affect any scenarios.. when we have 1000 test case particular test case only need a 15s wait time remaining still stick on 5s .. for one case we cant change for all.. so we can make that by using Explicit wait.
+Both WebDriver wait and fulent wait is class which implements an interface wait 
+
+Both WebDriverWait and FluentWait classes implements the Wait Interface
+
+ex--
+hotel searching application if you search by city like newyork, chikago, dalls it will take 5s to load the result but if search by United States it will return 1000 results and it will take more time than searching by city name as it is fetching data from database..
+if you give 15s globally all searching takes 15s to load.. each city also take 15s.. newyork takes 15s,chikago takes 15s,dallas takes 15s,californiya takes 15s. we cant sure it will pass or fail in that 15s.. hardly we have to wait 1m to know whether this testing are passing or failing.. here we cant sure about performanace also coz requirement is 5s to load for city here we gave 15s..so if there is a case where need more time to wait there we can give explicit wait.
+
+
+
+pros --- 
+its only applied wherever its required we are not touching else where in the code having it every where we could not identify the perfomance issues
+cons --- 
+if you dont know at which step your application gets slow down there we have to use implicit wait coz we should not give explicit wait for all test
+
+Both Implicit and Explicit Wait are part of Selenium.
+
+i--webdriverwait Class: 
+--------------------------------
+-- it will keep on listen to DOM of browser for object .. for every milliseconds it will keep on DOM .. this will continuously monitoring the DOM for object presence
+-- is a class.. we have to pass driver reference along with seconds that we have to wait for..with this refernce we can call webdrivermethod..
+-- until(ExpectedConditions.elementToBeClickable)--ExpectedConditions after this lots of methods available we can choose what we want.
+ex: below is common for all webdriverwait class
+WebDriverWait w = new WebDriverWait(driver,5)
+w.until( until(ExpectedConditions.))
+
+
+ii Fluent Wait Class
+--------------------------
+ -- It will monitor webelement at regular intervals of time..here we have to give polling time so that it will monitor that regular interval of time..Fluent Wait does not give any pre defined method to use with reference variable.. so here we have to give customized method. Unlike WebDriverWait , we need to build customized method based on the condition
+
+ex --
+10s, Polling 2s --> 10s is timeout, polling is every 2s it will check in the browser if the object we are looking for is present or not, if its not found again it will check after 2s..
+--10s, Polling 4s 
+ our requirement is first Your Card is accepted (3sec), Your Order Is Being Processed(7th sec), Confirmation msg --this testcase has same HTML property same class same name..when we write xpath it identifies the first action only which is Your Card Is Accepted ..after this it will take some time to display next action..
+ here first it will check at the 0th seconds after that will check at 4th seconds it will not check before the 4th seconds coz we have given polling time is 4s.. at 3s first action object will display but it will check at 4th seconds.. again freshly 4th seconds it will check for the second action but it will display at the 8th seconds after that it will confirmation messges
+
+cons--
+webdriverwait definition is pretty straight forward but fluent wait needs  some little more code to defining it
+
+
+3.Thread.sleep()
+-------------------------
+--Its part of Java.. by using this we are holding java test for mentioned time.. even our results are loaded in 3s it will keep on wait 5s cause here we pause for 5s and it will not listen dom also.. its never care about the results are loading 
+
+
+How to write a code in more generic that supports multiple data sets (dynamic data)-->
+-----------------------------------------------------------------------------------------------------------
+
+when we returnig multiple webelements we should use List<webelement>  as a return type.. when it return single webelement use WebElement as return type
+get(index)--used to pull one particular value out of total value
+--check whether our expected items present in the name or not so at runtime we change our array to arraylist.. why cant we define arraylist instead of array at initial stage cause array consumes less memory than array thats why we stored our expected items in array afterthat we changed our array to arraylist at runtime.. arraylist has contains() so we can easily check our expected with actual one.
+--break; when we use arraylist we cant use break inside if block ..cause it will not execute all the value if we give break it will come out from the for loop..
+--Dynamic Text
+driver.findElements(By.xpath("//button[text()='ADD TO CART']")).get(i).click();
+//after click on the above text it changed to added cart..  for next result it will not consider the first indext coz add to cart is changed to added cart so add to cart is no more in the UI. this type of text is dynamic text..its gone for few seconds..when the text is dynamic we should not use the text.. cause selenium will get confused to finding element and will return the wrong data..
+--dynamic/generic code
+in this example we relied on arrays value only based upon the value of array our code will return respective result..
+
+Calendar
+------------
+we cant use xpath to select the date from the calendor because xpath will stick with one what its represent..
+First grab the common attribute and put it in list and iterate that....for date
+
+While Loop
+--------------
+It will keep on executing or go inside the loop until or unless condition become false.. if you want to make the false conditon to true use ! . by using this false become true , true become false ..once while condition become false it will not go inside the body
+
+--------------------------------------------------------------------------------
+		SSL Ceritifications
+--------------------------------------------------------------------------------
+
+ChromeOptions  -- Our Local Browser
+.............................
+-used for local chrome browser settings.Is a class with this we can customize the options of local chrome browser. we have to create a reference for this class.. there is method merge() in ChromeOptions class .. with this method we can add extra capabalities to our browser
+
+ChromeOptions  c = new ChromeOptions () 
+c.merge(ch)
+
+DesiredCapabilities  -- General Chrome Profile
+------------------------
+-- Is a Class which help you to customize the chrome browser and merth this object reference with the ChromeOptions Object .. in the way the browser have the knowledge of what you are doing..
+--we have to clerly mention to which we need to add that customized capability in our case we are adding to chrome and  create an object reference. with that object reference we can choose respective method to handle its respective task.that object has the power and knowledge to add customize thing to chrome browser
+--If our DesiredCapabilities is accept the SSL certificates
+
+DesiredCapabilities ch = DesiredCapabilities.chrome();
+ch.acceptInsecueCerts()
+
+Methods
+-----------
+acceptInsecueCerts()--this is used to accept the insecure certifications in the application.
+ch.acceptInsecueCerts() -- here ch has the knowledge of accpectInsecureCerts.. we have to merge this with existing ChromeOptions Refernce Object.. now our local browser has the knowledge of handling th insecure certifications... 
+ch.acceptInsecueCerts() 
+
+
+How to inject the Local ChromeOptions to Our Invoking Selenium Chrome Browser
+-----------------------------------------------------------------------------------------------------
+now we have to pass this reference inside our ChromeDriver() constructor... Invoke the browser with what c have..
+
+WebDriver driver = new ChromeDriver(c):
+
+----------------------------------------------------------------------------------------------------------------
+Taking ScreenShots In Selenium
+--------------------------------------------------------------------------------------------------------------
+
+-----for taking screenshot-----
+--TakingScreenshot -- its a package
+first we have to change our driver behavior to taking screen shot.. for that we have to convert our driver by casting it with TakingScreenshot() now our driver has the capability to take the screenshot..
+
+-- getScreenshotAs(OutputType.File) 
+now our driver can call the getScreenshotAs() method... This method can capture the screenshot .. and we passing the argument which will tell the WebDriverBrowser output the screenshot as a File.. now we can store the file into a variable
+
+-----for storing screenshot-----
+--FileUtils()
+-which will copy the file from the variable and will store it in our location what we give.. so we have to call copyFile() method also..
+
+--copyFile()
+inside this method we have to pass that variable and the location for write down in the location
+
+
+--------------------------------------------------------------------------
+Asscending And Descending Order Of WebTable Column
+---------------------------------------------------------------------
+
+-- column webelement and after that get the text of respective column to perform sorting and put it in ArryList().. create another variable copy of original item in an ArrayList()... and perform directlt Asscending for this we have method sort() from Collections framework......
+
+--- For Descending   which means reverse() first we have to sort and do reverse on the ArrayList() element.....
+
+
+----------------------------------------------------------
+Selenium Grid Or Remote Selenium WebDriver
+---------------------------------------------------------
+
+This allows your test to run on different machine against different browsers.. it allows in different machines means control of  triggering the test will be in your local machine when you trigger the test case in your machine the execution of the test case will be on remote machine..
+
+From your local machine if you want to perform 5 test cases on remote machine selenium grid will help us to achive that.. on remote machine browser will invoke there and test starts to execute there and result will be on your local machine....
+
+Selenium-Grind support distributed test execution.. from one machine our local machine we can execute our test case on different machine against different browser..There should be only one Hub in the Grid...
+
+Hub --
+Where we started to distribute the Test Case Like Our Local Machine.. the machine containing the hub is where the tests will be triggered but browser being automated in the node
+
+Node -- 
+Nodes are selenium instances that will execute the tests which loaded on the hub.... Node can be different operating systems and different browser
+
+Pros of Selenium-Grid
+----------------------------
+---Even we dont have the infrastructure with you like different os ex:max if you want to run on mac from window but you dont have the mac machine but there is a one physical machine which is having mac.. regiester that server which is having mac as Node and connect to your local hub so when you are run a test on hub automatically test will diverted to local...
+---Parallel Execution 
+we can run a tests in parallel in mulitiple machines on selenium grid...different different test case on different node at a same time
+
+	Selenium Standalone Server
+	----------------------------------
+
+This help us to work with remote selenium webdriver.. when you run a test case remotely Selenium Standalone Server is needed...
+
+ I) How to Make Local Machine as Hub And Anather Machine Is Node
+---------------------------------------------------------------------------------
+Step 1:----
+Java should be configured properly in both the machine
+
+Step2:------
+Download the Selenium Standalone Server jar.. only one jar for this server after downloading place the jar on you any directory from there itself open CMD Prompt .. after that first we have to invoke that jar and tell whether its a hub or node.. coz Selenium needs to know which machine is selenium for that we have to register that.. then only it treat as Hub and give the controls which hub can handle ..for that do the following comment
+
+java -jar serverjar-name.jar -role hub
+
+java -jar ---first this will invoke the server jar
+serverjar-name.jar --by this we are regiestering this jar and now we will be able to invoke the jar after this press enter.
+-role hub -- the above jar has the knowledge to treat this local machine as HUB..it regiester itself as hub.. HUB is nothing but its Server actually we are starting the server.. now our server is regiesterd sitting at the port
+
+Step 3 :----
+i)  Login to another machine where node is being regiestered.. To regiester a Node to Hub you have to do it from Node..We have to download the  Selenium Standalone Server jar in Node machine as well..
+
+ii)  java -jar serverjar-name.jar -role webdriver/node
+
+we have change the role in Node machine into webdriver/node... why webdriver because this is instance of WebDriver.
+With above comman we just invoke the jar and regiestered it as Node..
+
+iii)  Above nowhere we mention conncet this to hub..so clearly mention this node to connect to that jar by giving following commend at the same line .. IP is the only thing we can identify the machine uniquely
+
+java -jar serverjar-name.jar -role webdriver/node -hub hub-ip-id
+
+iv)   we have to mention on which port you are regiestering this node at the same line..local port will liseten on its port last four digit is a port number..after giving below comment hit the enter automatically node will listen the port which we have given.. we can give any port for the Node machine
+
+java -jar serverjar-name.jar -role webdriver/node -hub hub-ip-id -port 5566
+
+v) After hit the enter automatically we get the log that this node is registered along with id.. from that we can know node is connected on the same time we get the log that this node is registered to the hub
+
+II ) How to Set Browser Driver Path In Node Machine
+----------------------------------------------------------------
+In our local machine we give the driver path of our local machine path inside the system.property() that runs in local but in Node it run in remotely so how do you give this knowledge to your node..
+First download the driver jar in node and keep it in where selenium server is located...
+we can give that knowledge to node at the time we invoke that...
+
+java -Dwebdriver.chrome.driver="Path of the exe of chrome" -jar serverjar-name.jar -role webdriver/node -hub hub-ip-id -port 5566
+
+Here -D is parameter from common line.. if we give -D commond assumes that there is one parameter and it will take care of that while running the Test... we can give any driver which selenium supports
+
+Control+C -- will the Node Server
+
+III) Desiredcapabilites and RemoteWebdriver Importance  :--- Both are class
+---------------------------------------------------------------------
+ localhost:4444/grid/console---
+After registering the node if you refersh the localhost:4444/grid/console on the HUB we can see the registered Node..In the Node we can see the browser instance that node can execute like 5 chrome , 5 FireFox, 1IE so that we can send 11 request to this node this is cleraly specified in the terms of browser information.. from our we can send 11 test cases to that node..localhost:4444/grid/console this is where our server is listening .. when we send the testcase that will reach here... Selenium-Grid will allocate the testcase to its one of the node where our critiria  matches
+
+Desiredcapabilites--
+This sets the property on which browser test should be executed on which platfor test should be executed..all the property to trigger the test case will be defined in this class.. here we are running the test case on the server so we need this class...
+Desiredcapabilites dc = new Desiredcapabilites();
+dc.setBrowserName("chrome");
+dc.setPlatform(PLATFORM.WINDOWS);	
+
+RemoteWebdriver--- 
+WebDriver driver = new RemoteDriver();
+RemoteDriver()takes two arguments one is properties of test which means browser name and os name second one is server address where exactly our server is sitting........
+new URL()--use to set the IP address of HUB........
+WebDriver driver = new RemoteDriver(new URL("https/:localhost:4444/wd/hub"), dc);
+
+CrossBrowser Testing---
+If we want to execute one testcase in different different browser like safari, chrome, firefox, IE this is called cross browser testing this is done with the help of Selenium-Grid.. but the capability we are giving should be match with the node what we are providing.. when we execute the test case we have to make sure browser closed..Selenium-Grid will take care of assigning the node
