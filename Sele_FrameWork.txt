@@ -1,0 +1,889 @@
+FrameWok
+--------------------------------------
+1. TestNG FrameWork
+---------------------------------------
+Its very importent when we creating project from scratch level.. we can have a control on all test case and their execution with TestNG thats why it could be also called as "Testing Framework"..Its a core framework for rest of them	
+1.Importance of TestNG
+2.TestNG XML File Importance
+3.Controlling Test Case Execution from Testng XML
+4.Include and Exclude the Mechanism
+5.Groups
+6.Data Provider Annotations
+7.Annotation Helper Attributes
+8.Parameterization in TestNG XML File :--One Test with Mulitple Set Of Data..
+9.Running Test In Parallel With TestNG
+
+EX:---
+If you want to run test case a there are a pre-requestie and post-requestie before we begin the test case a.. so we can set and map like that with help of TestNG.. First pre-requestie test case will run and it will trigger a.. Another Ex:-- if you want to test only 100 from 400 test case within one click we can do with TestNG.. In that way we can control the test case.. We can group them..
+TestNG itself act as Compiler.. TestNG Itself depend upon a java in the background.. TestNG needs all step of execution in a method...
+
+How to run tests in TestNG?
+--we need to have @Test annotations followed by the method.
+
+XML File in TestNG
+--------------------------
+-- In TestNG in single class we can define mulitiple testcases but whereas in java class for every new testcase we have to create separate class...How it identify its a second test case by giving annotation..on the console in the test package all the methods what we created in our testNG will be presented there.. we can trigger the all the test case from the XML file its the heart of the TestNG framework...
+-- Test Suite:----collection of test folder is test suite.. suite can have multiple module
+Every annotation is a test case
+
+I) How to Create TestNG XML file for your project
+.......................................................................................
+-- Right click on the project -->click convert to TestNG from TestNG ...It will create ready made XML File
+--testng.xml file should be a project level
+
+--Hierarchy of the XML File
+1. Test Suite -- collection of test folder is test suite.. suite can have multiple module Every annotation is a test case
+2.Module Name/Package Name/Folder Name
+3. Test Case Class Name -- have to give class name along with its package name..we can have multiple classes for same module
+
+-- If you want to execute all the classes which belongs to same package we can execute on a single click by XML File instead of executing separately like in java .. There a testng.xml file under the TestNG folder in every project
+Ex:---
+<suite name="Loan Department">
+  <test name="Personal Loan">
+    <classes>
+      <class name="Accout">
+      <class name="Transfer">
+    </classses>
+  </test>
+</suite>
+---From this we can configure and control our testcase.....
+
+II ) How to Exclude Specific Class and Add a Class :-----------
+--If you want to add a class inside same package but if  this class is belongs to different module we can seggregate from those package by XML..we can give that classes's module name on the xml...Like that we can cofigure and control over the testcase..
+EX:----
+<suite name="Loan Department">  // 
+ <test thread-count="5" name="Personal Loan"> //Test Folder
+    <classes>
+      <class name="TestNG_FrameWork.Day1"/> //we can include the classes or exclude the classes
+      
+    </classes>
+  </test>
+  <test name="Home loan"> // Test Folder
+  	<classes>
+    	<class name="TestNG_FrameWork.Home_Loan"/> // we can move to class
+    </classes>
+ </test> 
+ </suite> 
+
+III) How to Exclude Specific Method in a Class -------<exclude>
+--In the class we have mulitple testcase like annotation and followed by method we exclude a specific method for an exection by XML
+
+IV) How to Include Specific Method in a Class -------<include >
+--We can include the specific test case for the execution by XML file with help of <include> tag
+
+V) regex --regular expression
+--If we have 100 testcase for particular module if you want to remove 40 from that we should not write 40 times exclude tag.. those 40 should have common name like it may start with some specific name.. so we can easily exclude those testcases by giving that specific name in the exclude tag...
+<exclude name="Home.*"/> -- star will represent all the testcase those start with Home..It will eleminate those testcases in single shot
+--Testing convention is most important thing... If the testcase belongs to particular module always start a method name with that module name ...Naming Convention is important in TestNG framework.. Name consistent is important when write a code that time itself we should give consistent name because it will very useful when we automate the test case and aggregate them by name and can have control over them..
+
+VI) Package Name:
+If you want to execute all the classes which  belongs to same package we can give package name instead of its all class it will execute all the testcases from all the classes..It will be useful when we do regression testing there we will be doing all the testcases..so put all the test cases in the same package and run in a single shot
+EX:---
+<include name="homeapi.*"/>
+<exclude name="homeapi.*"/>
+
+Annotation In TestNG
+------------------------------
+1.@BeforeTest 
+If you want to do pre-requestie task or before starting the testcase execution currenly we may need to delete the data which is submitted in previous execution.. For this we use @BeforeTest annotation..If we give @BeforeTest in a particular class the scope of this annotation is only the test folder where this class is presented .. if we have more than a class which dont have a @BeforeTest  there also this scope is applicable if it in same folder.. This scope is only for its test folder..TestNG gives high priority to this.. it will not execute this for every execution in the every class. if it in a class it will be execute only once for entire package.. Even if the class which contains these annotation in the last of this test folder BeforeTest will be executed first and AfterTest Will be executed at last..
+2.@AfterTest 
+It will executed at last after all testcase execution in the particular test folder not to entire packages.. if we give entire package in test folder it will applicable other wont.
+-- If you dont give these annotation in order but it will executed in the order only.. if testng sees the aftertest annotation in first it will put that in hold and will execute in last...
+EX:--
+<suite name="Loan Department">
+<test thread-count="5" name="Personal Loan Module">
+    <classes>
+        <class name="TestNG_FrameWork.Personal_Loan"/>
+        <class name="TestNG_FrameWork.Sample"> //annotation is in this class..first before next personalloan class method then this.
+      	<methods>
+      		<include name="samp.*"/>
+      	</methods>
+        </class>
+    </classes>
+  </test>
+ <test name="Home loan">
+      <classes>
+          <class name="TestNG_FrameWork.Home_Loan">
+    	<methods>
+    		<include name="homeapi.*"/>
+    	</methods>
+         </class>
+     </classes>
+ </test> 
+ </suite> 
+
+3.@BeforeSuite 
+collection of test folder .. test folder is collection of classes.. Suite is parent for test folder.. if we give @BeforeSuite in any of its test folder class it will execute this annotation before before its execution....@AfterSuite will executed after all the testcases in the all the testfolder is completed..this will be used where if you want to global environment variable for your framework..
+--we can define these both suite anywhere in the class before the testcase.. we can define @BeforeSuite in one class and @AfterSuite in one class.. these scope is for entire XML File but the class which those suits should be presented in the test folder then only TestNG can identify
+4.@AfterSuite
+after all test folder testcase execution is completed
+
+5.@BeforeMethod()
+-- Every method is a test case in TestNG...If you mention this annotation  @BeforeMethod() in a class this will be executed first for every method.. IF there are 4 Methods in class if you have @BeforeMethod() this annotation before each and every method this annotation will be executed..
+--@BeforeMethod() Testcase1; @BeforeMethod() Testcase2; @BeforeMethod() Testcase3; @BeforeMethod() Testcase4
+--This method is used to clear cache and cookies before every test execution in the browser ..for jira authedication that authendication is valid for only 5 mins if you want to make sure if the server is connected properly or not put that validation @BeforeMethod after exection of all testcase it executes
+6.@AfterMethod()
+It will execute after each and every testcase
+
+7.@BeforeClass()
+Scope of this annotation will only for its class..before executing anything in the class this @Before_Class() will be executed..After that @AfterClass() method will be executed
+
+--TestNG Will execute our method in the alphabatic order
+
+III) Usage of Groups Funtionality in TestNG :----
+If you want to execute the testcase from different different classes for every execution..40 test cases out of 100 from 4 different classes how do you run that in single click? like Smoke Testing.. 
+-- For this TestNG provides us "groups" and assign any tagname which is related to that group in the curly braces ..Groups is a tag name we should give this inside the @Test Method
+--Before the class name we should give groups tag inside this tag we have to give run tag inside this we will give the tagname which we provide before the testcases which we want to group.. we put those testcase tagname in the TestNG XML file we only trigger those testcase only..
+
+IV) Annotations Helper Attributes  :------
+--Testcases in the class will run by alphabatic order of the Method ---method is a Testcase in TestNg.
+--If you exclude or include in the XML File but if you are run from class level that will not have knowledge about include and exclude things it will execute the testcase by alphabatical order..
+
+1. (dependsOnMethods="Method Name") 
+--As TestNG executes TestCase in the alphabatic order if you want to execute the test case B before A for this we will use dependsOnMethods... We have to mention this before the method which need to execute second here A..we can give more than one Method name for depends.. by this we control the testcase execution... The method we give dependsOnMethods helper that will executed at last of that class after execution of rest of the methods but first the method we assign to depends testcase will be executed.. except depends testcase remaining will be executed in the alpha order
+EX:---
+@Test(dependsOnMethods = {"homeweb_Login","homeapi_Login"})
+public static void home_Singin() {
+	System.out.println("Home Singin");
+	
+}
+
+2.enabled=false
+if there is bug in the testcase and you have reported that bug and if you want to run other testcases again it will report the bug until fix that we can skip that testcase by passing enabled=false argument inside the @Test..if you dont want our TestNG framework trigger that so we enabled that testcase to false with annotation helper attributes.. This is way of Off your testcase
+
+3.timeout=4000 
+If any testcase take time than other testcase we can give the timeout for the specific testcase with help of the annotations attribute..Rest Assured wait till 5s only if you want to wait some more minitue we can use this attributes..some service takes time to respond so we can up the waiting time by this
+
+V)Parameterization in TestNG XML File
+
+1.Test level parameterization - valid only the class which are inside this test folder .. specific test folder .. only those class presented in this folder
+2. Suite level parameterization  -- valid for whole packages -- global level .. can use any class in the package
+
+-- You can parameterize and drive the value from testng xml file.. If you have any glabal environment variale like URL, Uname, Pwd.. There are some values which are common across all the test cases.. One way is drive it through the code using properties class and we can also do it from testng xml file.. We should not hard code the URL, Appieum Key.. Those should be drive it from one centralized place..
+-- If the values common accross all the test folder we can define after the suite tag..
+-- If those are specific to the particular testfolder define inside the testfolder...
+-- <parameter name=" " value=" "/> -- at testng xml file
+--@parameters({"name of the name"}) :--above class testcase 
+that name value will come here --If you give this above particular testcase it will applicable for that only.. If you want it everywhere have to mention above all the test cases
+
+When to use Suite Level and Test Level--
+Personal loan might have the unique url --- testfolder lever
+Car loan might have the unique URL     ---- testfolder level
+Both these there could be one common website ---Suite Level
+
+We can pass mutliple parameter value to single testcase by separating the value by comma.. Those are high level parameters..But This Parameterization for Suite and TestFolder Level what if we want that parameter only for specific testcase..?
+
+3.DataProvider Annotation:------ Method Level
+For some test cases we need to test with mulitiple data set value like combination of data..like firstname, lastname,uppercase,lowercase,age with one of value and with another set of value... we can achive this through DataProvider Annotation..
+For Login: uname, password, login button
+1.correct uname, wrong pwd, click
+2.wrong uname, correct pwd, click
+3.correct uname, wrong pwd, click
+4.no uname, no pwd, click
+This is combination of test data value.. for every combination of value test case should invoke and run
+How to integrate our data with Test
+By providing DataProvider name to the Test where need those data
+
+-- So parameterization achived by in two ways first one is driver the parameter in xml and used in class another one is by dataprovider annotation
+
+VI) Listeners Interface in TestNG Framework
+There is some listeners will activate after your test or before your test..There is one situation where we have to take screenshot after every test failure... we cant wirte a code after every method we dont know where it will fail it may be fail in some page.. For this TestNG gives us a Listener...
+-- Listeners will re-route you to specific block when testcase is fail so in that block we will write screenshot code..whenever testcase get fails that block will be activated and screenshot will be captured..
+--Listeners will listen your testcase it will listen our test results when it hear something is fail it will invoke the particular method and again it will listen when it here sucess it will invoke the other method..
+ITestListener --
+Is an Interface to implements the Listeners which have all methods for listeners...
+
+onTestSuccess vs @AfterMethod
+--onTestSuccess
+It will be executed once the test is success
+--@AfterMethod
+It will be executed after every method whether it pass or fails
+
+When You Capture Listeners How do you fine Testcase name if it fails..
+ITestResult -- is a class it describes result of the test..
+syso(result.getName()) --it will give us the name of the test case which is failed
+
+VII) Running Test In Parallel and Generating Reports...
+In testng.xml file test folder is triggerd by in sequence .. first it will execute first test folder testcase after that second folder... But We can run all the test folder at a time even too.. But In real time it will lead to performance issue because at a time 100 testcase is triggerd it will open 100 browser..
+
+TestFolder Level:---We have to give those attribute at suite level
+parallel --
+Is a attribute assign value as "tests" -- Testfolder will be executed in paralle
+thread.count---
+-- We can also give how many test we want at a time by thread.count=2 like that
+
+--Class Level : we have to give those attributes at test folder level .. we cant give at class tag..
+
+----------------------------------------------------------------------------------------------------
+How to drive the Global Environmental Values from External Files to Tests in Java
+----------------------------------------------------------------------------------------------------
+.properties file
+This is achived by java ... There is .properties file in java from there we can extract the value..we have to create a file with extension of .properties
+Properties class :--
+There is a class called Properties it will used to scan and extract the value from .properties file... so we have to tell to this class where our .properties file exactly presented .. this does not have a knowledge of where it is located..
+FileInputStream:--
+--To read the data from file we use this class
+This class will help us to get the path of the .properties file.. copy and paste the path of the file inside the FileInputStram().. now this class object will have the knowledge of the path of .properties file.. so we have to tell the path of .pro file to Properties class then only it can identify the path of .pro
+load():--
+--load() method will load a file in reading mode
+--call the object of Properties class and call the method load(input stream)... inside load method pass the FileInputStream object
+getProperty():---
+Properties class contains this method to get the value of .properties file
+setProperty():--
+We can change the value of a key at run time by using this method...here actual file value wont get updated 
+FileOutputStream:--
+To write a data to the actual file.. This way we  file will be activated to modify externally
+stroe():--
+It will help you to store the new info.. Whatever update you have made in your file it will return back to your store method
+
+---------------------------------
+2.Maven
+----------------------------------
+Java is Pre-Requestie For the Maven...We have to set Sys and Environmental Path for Maven..In the Path variable give the path until bin...for the Sys variable give the path until apachi-maven(until home)...
+Or in eclipse we can 
+
+Artifact Id --Project Name
+
+Temple for all automation --maven.archetype.quickstart 1.1
+--Go to Commend Prompt Type  "mvn --version" we can see the version of the Maven..By this we have successfully configured the Maven
+-- Apache Maven is a Software Project Management and Build Automation Tool ..
+whetever software we work on Maven will take care of few things that could be framework, developement code, testcase..
+
+1.--Why Maven?
+1.Central Repository to get dependencies
+--Maven have its own Central Repository.. Central Repository means it contains all the Java Project Jar and Library not only for java python like that...
+-- We are hard coding Jar's for every new project.. If you want to share you project to other they also need to download all the jar's .. because that jar is local to each system... if we download the jar in sys1 we cant simply use it on sys2 coz jar is same but path is different ..if one of the jar's is wrong we are not able to do project.. If jar's version is changed again we have to downlaod the jar and configure that jar every time..
+-- If dont hard code the jar then how our code would know where exactly our jar are lies here Maven come into pictures..
+Maven Have its own mvrrepository.. Here all software jar is available like its own website ex:Selenium jar will available in its own website and they posted in Maven Repostory also..
+--When we build a project with Maven we dont need to give any jar .. Maven will look its repostory for the required jar and download it and place it in the project all these work Maven will take care thats why its Software Project Management
+--By passing dependancy in HTML Maven will reach its repostory and identify the jar's uniquely by the HTML tag..
+-- If the version is changed there is a version tag in the dependancy so we can just change the version number
+
+What is .m2 folder in Maven?
+The local repository of Maven is a folder location on the developer's machine, where all the project artifacts are stored locally. When maven build is executed, Maven automatically downloads all the dependency jars into the local repository. Usually this folder is named . m2.
+
+2.Maintaining Common Structure Across the Organization:
+In a company there different teams work on different frameworks.. some may store it in folder some may not.. there is no proper consistancy  in the maintaining the folder or framework skeleton..there could be different framework structure so to bring the consistancy across the organization .. it could be selenium / mobile framework /API Framework / even in development framework also.. There should be one common framework structure so maven giving that common structure if you use Maven it automatically suggest template for us.. For testing it will suggest one framework, developement it will suggest one template like that so we can use that framework and we can use our testcase on that template..
+--If you invoke the Maven it will give us default skeleton for us
+
+3.Flexibility in Integrating With CI tools:--
+Normally we run a testcase by right-click and run as java application or run as TestNG one by one .. but if you want run 100testcases overnight we need some Contineous Integration Tool like Jenkins ..next day all the test cases will executed one by one we do not need everytime right-click and run as.. For that we need some build management tool to provide this information to Jenkins.. To make our project compatible for jenkins we need to adopt one build management tool for your framework.. So here we are using Mavan is build management tool.. 
+--There are some Maven commends to run our testcase in Jenkins
+
+4.Plugins for Test Framework Execution:
+This support TestNG, JUnit, Appium Testing, RestAPI Testing.. we can use all the features of TestNG in Maven tool
+
+2.--Maven Terminology
+-----------------------
+group id---
+--There are many projects are there in Maven repository ... maven will identify each project by group-id
+for selenium groupId  =seleniumhq.selenium
+for Rest Assured  = io.rest assured
+Artifact id --
+--sub project of group-id.. Selenium is main project we can use java, C#, Python 
+For Selenium Java artifact-id=selenium-java --we can say its jar name
+--Selenium first will read the group-id from that it will get to know they need something from selenium project so first it filter with group-id then it will read the artifact id... out of selenium-java artifact id they need the version 3.6.5 so it will return the thing which will match with all those attirbute
+
+Commands:---
+mvn clean install --> this will execute the testcase and give the jar and execute the plugins --Jar file is executable file of Java ...
+mvn test --> this will executet the testcase and will not give the jar and execute the plugins
+mvn package -DskipTests --> this will not execute the testcase just execute the plugins .... By this way we can skip the testcase (or)
+mvn package -Dmaven.test.skip=true -->we can give this on the common before that we have to give following thigs inside the properties file in the Pom.xml......
+<properties>
+<maven.test.skip>true</maven.test.skip>
+</properties>
+
+Maven Life Cycle and Its Plugin
+--------------------------------------
+Maven Compile --Compilar Plugin -- Java class , code -compile
+Maven Test --Maven SureFire Plugin
+Maven resources -JARs, WARs, EARs --Maven Resource Plugin
+--We dont need to explicitly mention these plugin in POM maven will pick those plugin automatically.........But if we have mulitiple class file and if we not mention surefire plugin first class file only will be executed.......If we want to execute all the class file we need surefire plugin and to integrate with Jenkin also we need SureFirePlugin......
+--All the plugin should be inside the build tag
+
+3:---POM.xml File and Its Dependices
+----------------------------------------------
+
+4:--Importance Of Maven Sure Fire Plugin
+-------------------------------------------------
+--This will help us to run the testcases..We have to give that plugin in POM.xml... By default Maven Skelton We will not get that plugin.. We need to copy it from official website and paste in in POM.xml Not from Maven Repository but from Maven Sure Fire Plugin website
+-- From Sure Fire Plugin inside the "Usage"
+
+Sure Fire Plugin Importance in Executing Tests
+--------------------------------------------------------
+-- All commond should start with mvn...
+-- Whatever commend you execute it starts from project level.. because it should identify the POX.xml File.. The common from where you are running should point to POM file coz POM is at project level... and that commond talk to POM file and triggers Maven 
+
+1.mvn Clean:----
+It will delete all temporary files, builds,previous reference or whatever current have...To avoid build error its better to start with this commend... 
+2.mvn compile:---
+If you want to check your testcases Syntaxily correct...Eclipse also shows this error but we run in Jenkins there is no Eclipse to show all these errors... This commond will not run your code it will just compile our code and gives if any syntax error is there like semicolon missing like that..
+--If there is no syntax error it will return Build Success Messgae in commond prompt
+3.mvn test:--
+--This commond only actually trigger our testcases..
+--If you dont give mvn clean, mvn compile and if you give this commond directly will do as pre-requestie and after it will trigger the testcase ..
+-- After giving this commond if you hit enter it will first read all the dependencies and first will go to .m2 folder which is your local repository and check all the jar are presented or not.. After each dependency it will not go to Maven repository first it will go to its local .m2 folder where all dependency jar are presented.. If the jar is not presented in the .m2 folder then only it will connect to repository website and bring the jar.. For the first time it will pull from repository..
+-- We dont need Eclipse for executing the testcase.. and We dont need to do right-click - run as TestNG or run as Java
+--If Maven want to recognize your testcases inside the TestFolder we should put "Test" at each Java Class File.. Maven algorithm expects Test keyword at end of each Java Class File .. It will Filter Up with that logic Otherwise Maven will not take that Class file for execution
+--Once you run the test if you want to check where the jar's are located  we can find it in .m2 folder
+
+5:--Integration of TestNG with Maven
+-----------------------------------------------
+How to Trigger TestNG From Maven?---
+---Right Click on Maven Project -->Click TestNG -->Convert To TestNG 
+Now testng.xml file will be created after pom.xml at project level like pom.xml....But we want to execute the testng.xml file not pom.xml...
+Using Suite XML Files:----
+This is dependency like others...This allows flexible configuration to tests to be run..We have to add this to Sure Fire Plugin configuration after its version...
+When we give mvn test it will come to pom.xml files then only its trigger.. Now Maven Will only listen testng.xml file from that it will execute the testcases..
+
+Can we run a single class file from Maven?
+Yes     mvn -Dtest=TestCircle test
+
+6:--Switching the Test with Maven Profiling?
+Ex:--
+--If you have Smoke testcases in one testng.xml and Regression in another testng.xml .. There are two types of test Execution one time is Smoke and another time is Regression ...then how can we execute those file separately. In Smoke we only have high level testcase but In Regression we will have all the testcases...
+--How to control testng.xml file from Maven?
+We should not change the testng name in the configuration of Sure Fire Plugin..If that is the case we can build the Profile inside Profiles ..Inside the profile create Id tag inside this give the Sure Fire plugin dependency and testng configuration and in the testng configuration we have to give the testng.xml file name..
+--profiles is a parent inside this we can create multiple child profile..inside child profile we give its id and plugin , configuration..Between the Id tag we can give the testing name...
+-P:--
+-P indicates profile after giving mvn test give this -P commond along with id name....
+Ex:-
+mvn test -PSmoke
+--By this we can control the execution of testng.xml files from Maven.. we need not to change the testng.xml file for every testing if we execute different different testng.xml.. so we simply create a profile for one time and we can use it for many times..
+--We can maintain mutliple testng.xml file by profiling
+
+-------------
+3.Jenkins   -- Conti
+-------------
+1.Importance of Jenkins
+Its a Continuous Integration Tool.. Its primarily for automation.. Automation in the sense daily routine work like building the jars pushing the code into website that could be anything ... what could be automated except manual testing all things can be automated by jenkins...
+-- Providing Maven Commend and hitting the enter is even a Manual thing.. We want a scenario where test should trigger automatically without any manual Intervention..  We should not give a single commond to trigger the testcase or we should not run a single file to trigger the testcase from eclipse too..
+--We can schedule the testcase execution as job.. If we want our test execution by morning for that we have to start the execution at night .. instead of we give a Maven commend and execute the testcase we can trigger that in Jenkins .. If we Assign this job to Jenkins it will trigger that at what time we give.. When developer pushes the Smoke code it will automatically trigger that we dont need to give any common manually....  Once developer pushes the new code if our enviroment sees the new code in the code database automatically Jenkins run..  If client want to see the result of our testcase they will not go to Eclips and will not hit a Maven commend coz they dont have any technical knowledge if you send them a Jenkins URL there they can easily see what they want like result etc..
+-- Jenkins has its own Sever .. we need to set Java and Maven version .. Based on that version Jenkins will run the testcase..
+Ex:-- If we have TestNg version 6 but there is un-stability in that version so we need to use 5 if you change TestNG version to 5 all the testcase will run in the specific version.. If we dont have have Jenkins one use laters version of TestNG another one is use outdated version of  TestNg so they dont get correct result they may get different different error.. To make the Consistancy and to remove all the dependancy when you trigger from Jenkins, Jenkins has its own environment if you pass stable version it always run on what settings you have provided...  If dont get Jenkins there no consistancy in Jar files also..
+
+--If you are using Jenkins we will not get result on our Local machine.. If we run from Jenkins we will get one common URL where we can share across the team members.. If you want to see the results If have have Jenkins URL we dont need to have any setup of like Eclips/Jar/Testng/Maven Like that they can go to the URL There the can see the Results....
+If we pushes code to Jenkins and If we want to know whether any testcases are failing because of any latest version code they need not cloning the testcase and run on local machine they simply login the Jenkins URL and trigger the Build Now From that behaviou they can come to know
+
+--Its basically Centralized to use across all the team members and geographically location as teams accoss geographical location and Jenkins help to maintain one common Configuration
+
+2.Download and Install Jenkins:--
+------------------------------------------
+Its just a war file.. So need to give one Jenkins commond
+java -jar -jenkins.war -httpPort=8080 -->from the folder where we have kept that jenkins war file...
+
+--Maven can have proper integration with CI like Jenkins..Maven and Java is need to be set up inJenkins .. Selenium TestNg Other Framework will be take care of Maven by the POM.xml file
+
+Global Tool Configuration:---
+After Login into the Jenkins for the first time we have set the software whatever we want inside this Tool.. This Tool is like Environment Variable in window when we set the path of Maven Sql Java..
+
+3.Configuring Jenkins Settings and Workspace
+---------------------------------------------------------
+
+How to Configure our Project in Jenkins and Run from Jenkins?  :-----------------
+
+--In Jenkins home directory we have to pass Project path then only Jenkins will recognize the Project.. We can get it from Git but as we are using LocalHost as it is in our Local machine we have to place this project in Jenkins Home directory when we give custum directory Jenkins will come an look for a project in its Home Directory...
+1.Give a project Name
+2.Select FreeStyle Project
+3.If we have a code in GitHub use that Else Choose Advanced Settings and Custom Directory will be there .. when we have a code in local we should use Jenkins Home... We have to paste our whole project....There will be a Directory Text and Display Name ..
+--In the Directory we have to give Jenkins Path along with Project path...
+${JENKINS_HOME}\POM.xml Path
+--${JENKINS_HOME}-- It will indicate the Home Directory of a Jenkins because Jenkins will come here and look for a project if we give Custom directory....
+--\POM.xml Path -- This for our project location we need to tell the Jenkins this is the project that you have to Builds..
+4.After this Go to Build section select Invoke  "Top-Level Maven Projects" .....
+--Select Maven Version
+-- Inside the Goals Give the test what you want to perform on the project... Here we dont need to provide mvn commond along with test/compile/clean because that will be pre-loaded by Jenkins..
+5.And Save the projects..
+
+4.TestNG Reporting Plugin Into Jenkins Jobs
+-------------------------------------------------------
+TestNG Results Plugin:----
+-- We can generate a result  report of TestNG in Jenkins with help of TestNG plugin ...   If you refresh your project after every execution it will generate a report in the format of Index.html with help of SureFire Plugin inside this we hava testng dependency... Every results are genarated in the xml format which will be in the testng-report.xml file inside the target folder...
+-- TestNG gives us the plugin if we pass that testng-reports we can get a report in jenkins.. That Plugin is integrated with Jenkins for producing the reports..
+-- when we create the project we can choose the Publish TestNG Result from Post-build Actions... Once we select that option our testng-report.xml will be pre-pollutated in tha box..
+
+Settings In Jenkins Home Page:--
+
+Options Inside Our Pro After creat that:-----
+1.Configure -- Adding the feature after we creating the project
+2.Delete Project -- Will delete Entire Pro
+3.Build Now -- Will Build / Execute our Pro
+4. Workspace -- Here We can see our code
+5.Changes -- For every Build if you make any change that will be there in this block
+
+How to Schedule the Execution in Jenkins:---
+Build Trigger Section:-- There is option Build Periodically in the this section.. It will expect the argument as in the format of 
+M H D M DAYWEAK
+*   7  *  *    *
+--* represents any Minute and every day and every month and every day
+-- we can assign the date for that also
+-- If we dont give the the Minute value it will assign 0
+--We can see our result graph in the TestNG Results Trend
+
+------------------------------------------------------------------
+4.What are Extent Reports and its basic configuration
+-----------------------------------------------------------------
+-- Used to generate the reports we can see the result in pie chart how many pass fail harm...we can see every testcase log and we can get screenshot of those failed testcase in the form of HTML Document...  We have to give this dependency in the POM.xml
+--Its not part of TestNG like TestNG its a framework for reports... If we want screenshot from Extent Reports we have to integrate it with TestNG Listeners.. It will take a Screen shot when testcases are fails..
+-- There is jar dependency for this reports in Maven Repository so we can copy and paste in our POM.xml file
+-- We can have Consolidate reports of all the test cases and run in parallel mode and see how the consolidation happen
+
+1.Understand creating Extent Reports for Single Standalone Test:
+--------------------------------------------------------------------------------
+There are two classes in Extent Reports
+
+1.ExtentReports--This is main class ... This is responsible to create the test execution and consolidation of all test execution.... So we have to attach the report whatever we have created with ExtentSparkReported class to this   class...  ExtentSparkReported is a helper class to create configuring ...
+attachReporter()--->
+--Create the object for this class and call the above method.. and pass the object reference of ExtentSparkReported class..
+Now Our ExtentReports class have the knowledge of html file..
+setSystemInfo():--------->
+-- We can set the Tester Name with this method
+CreateTest()---->Used to create the Test in reporting file...We have to this method with object of ExtentReports class in the Method.....
+--It will report about each testcase in the Reporting file
+2.ExtentSparkReporter --This class will expect the path where it want to create the HTML file for reports... Our reports will be in HTML file.. This class is resposible for creating the HTML file and to make configuration in results like Report Name,
+Document Name (Title Name).. This will do the configuration and will create the HTML file in the required location..
+Path is a String.......
+-- First create the object for this class pass the path which contains project path and HTML path....we can store a path in a variable and we can pass...
+--With that object and config() method we can set the reportname, document name ...
+--Every thing is configurable in Extent Reports with this class..
+--This is a Helper Class which is used to create the Test Report in the HTML Format... 
+
+--user.dir -->we can get the path of the project
+
+How to use Main Class Object in Maven?:-----
+-- We have to use the Main class Object in every testcase at first line....And we have to explictly call the createTest() Method it will create one new test in reporting test.. This main class object keep on Monitoring the test status of that testcase method.. If it pass it will go back and update test result as pass and if it fail it will update as Fail... And This is mandatory for every Testcase method..
+--extent.flush()--To stop the Monitoring .. we have to give this at end of the last testcase..it will  No more start Monitoring
+ExtentTest:--
+Whenever we create a test automatically one object is created for every testcase method....This obj comes from ExtentTest Class..  This obj is resposible to listen and report for all the happening back to ExtentReport Obj
+--We can attachScreenCaptureFromBase64String to the Method where this obj belongs to..
+--We can delibrately fail the test by using the method fail().. But we dont know where it exactly fail it.. So we can integrate this with TestNG Listeneres when testcase is failing automatically TestNG Listeners will capture it.. It has fail method we can give what has to do when testcase is fail.. Whenever testcase is fail it will be invoked and capture it and report to extent obj..
+--Though testcase is executed successfully if we dont report as fail through ExtentTest Obj  to ExtentReport it by default treat as Pass.. Whatever we pass by ExtentTest report based on that ExtentReport has been Updated..
+
+
+--------------------------------------------------------------------------
+5. Apache POI API --- Data Driven Testing From Excel
+--------------------------------------------------------------------------
+How Can You Drive Your Data From Excel
+
+1. How to Pull Those Data From Excel
+-------------------------------------------------
+If we have a data in Excel How to retrive it...
+Apache POI API -- This is a API..... This is Open Source....POI API is a library of Apache used to get the info from Excel to Java code.... 
+Maven Dependencies:
+1.poi-ooxml
+2.poi
+---These two dependencies is enough for work with Excel
+
+2.Strategy to Access Excel Data
+-----------------------------------------
+1.Create Object fo XSSFWorkbook class --With this we can have a control over Excel
+2.Get Access to Sheet
+3.Get Access to all rows of Sheet
+4.Access to Specific Row from all rows
+5.Get Access to all the cells of a Row
+6.Access the Data From Excel into Array...
+
+1. XSSFWorkbook:---
+How Would know that this is the Excel file it has to Access?
+FileInputStream :---
+If we pass File Path of Excel into  XSSFWorkbook this class then it will know where to access.. This  XSSFWorkbook class Accept FileInputStream is a argument.. So basically we have to wrap our file as FileInputStream Obj and pass inside this XSSFWorkbook .......
+--- Now this file Obj has a permission to read the file which is in the path... FileInputStream This Class Obj has the power to read to any file so that we created this file obj and pass inside this XSSFWorkbook ....
+--- Now XSSFWorkbook this class Obj has the permission to access the Excel
+
+2.getNumberOfSheets() --Return type is int.. --To get count how many sheets are there in the Excel
+--getSheetAtIndex()-- To get the i-th index sheet.. Is this the Sheet what you are expecting then do the Operation on that sheet ... Return type is XSSFSheet
+--getSheetName() -- We can get the sheet name from multiple sheets...
+--With those methods we can have a control on a single sheet .. this is pre-requestie for all the Data Driven from Excel
+
+3.Get Access to Rows and Cells
+--------------------------------------------
+--getNumberOfSheets() --To get the count of how many sheets are there
+--Iterator() --Used to Traverse all Rows one  by one ..Contains all the rows....It has the ability to move to all the row
+--cellIterator() --Used to traverse all the Column one by one Contains all the columns
+--hasNext() -- It will tell Whether the next object is present or not..If present it return True else False
+--next() -- Used to move to next next column or next next Row or Value ...with this we can access on that value......We can store this into a Variable.......
+--getStringCellValue() --To pull the value from Cell/ Extract the value from Cell
+--getSheetName() -- Will give the Name of the Sheet on the WorkBook
+--getSheetAt(index) -- It will give the access to the Sheet
+
+**If we have a mulitiple data in a row .. if we have combination of string and numeric we cant get numeric value by  getStringCellValu() ...   If you to try to get numeric value with that method we will get  "illegalStateException"---Cannot get a String Value from a Numeric Cell..
+----getCellType():------It gives type of cell
+getCellTypeEnum() ------It gave type of cell.. But This Is Deprecated......
+--First we have to get what type of Datatype that cell is possess with the above method.........For ever next it will move to next next Cell we can store a next() into a variable with that variable we can call above method....
+--CellType:--
+With this method we can call String,Numeric type
+
+Ex:---
+(getCellType()==CellType.String) --- It will check for every Cell whether its a String type Cell or Not......... 
+
+--NumberToTextConverter() :-----
+---toText():---
+If we defined our ArrayList as String it will not accept numeric value .... So we have to convert our numeric value into String with method like we do a Parse in Java there we use toString() to convert to String here we use toText()..... This method is inside NumberToTextConverter() this method...
+
+Sheet--- All the Rows
+rows-- all the cells
+--One thing to be sure there is no method for coloum... Here all are Rows and Cells
+1.Our Goal is identify the specific Column from the entire 1st row here is Tesecase Column from entire row.. All the heading of each row is presented in the 1st row..
+2.Once identified the specific Column (Testcases) then scan Testcases Colun for specific Column(Purchase Column Testcase)...
+Based on this column we iterate to all the row and grab the Purchase Row
+3.Once grab the specific column(Purchase Row) then pull all the data of the Row....
+To grab the Testcase coloum we cant blindly give Index num because someone maybe change the order of the column.. So we should grab the coloum by traversing entire row...
+--To grab all the data from Purchase Testcase first we need to go to Purchase Row.. To reach to Purchase Testcase row first we need to understand which column actually defines the Testcases Names...  we cant hardcode with index to reach to Purchase... Maybe they will change the index value then it will go to some other Index here our test will fail.....
+--First scan the 1st header row to identify where exactly Testcases coloum is Present
+--Once we get the access of Specific Sheet then we have to take control of All Rows.... By Iterator we can traverse to all rows from that we can choose our specific Row for that use next() method...Rows are collection of Cells...... Once we reach to specific row by Iterator() method we can traverse to all the cell one by one so we can get specific Cells
+--We can grab the complete cell to get the data of that Cell.........
+
+How to Scan a Single coloum to get specific column?
+--getCell():--
+Method is used to get the cell value of what we pass inside this method either we can pass index or if we have column index already we can use that also...  With this we can have a control of the Cell ...... So for every Row it will give Cell value
+
+---------------------------------------------
+6. Apache Log4J
+---------------------------------------------
+--Its just Utility for Robust Framework............. It can be integrated with any Java Based Framework Only.... This is provided by Apache 
+Log4j is fast and flexible framework(APIs) written in Java.... With this we can log our OutPut... Which can be integrated with Selenium Framework so we can Log our Output....... To see the Output on the Console we have used  "System.out.println" to print on the Console.
+---May be If you want ot on the Console or other files we can use Log4j 
+
+Why Log4j?
+----------------
+1.How do you send entire logs to files?
+Ex:---
+1.Clicked on this Button?
+2. Page is Successfully Loaded?
+When we write a testcase we have to maintain those logs in our testcases.... This is best practise of writing Automated testcase....
+wherever it test is failed by just going through the log we need to understand where script got failed...... If we want to do this for all test we are encourged to use Log4j..... When you are getting the text you need to log the text or clicking on the Button we have to log that you have clicked .. I selected this check box all those should be logged
+2.Log only when there is error for package A ----  when we writing the testcase if it gets failed we have to give else block for failure log like Object Not Found
+3.Log the entire message for Package B -- With Entire log client can verify whether all the functionality has been developed or not
+4.I want log with TimeStamp ---Sometimes we get error at test execution but there is no problem at developer side so If developer asks at what particular time you got that error
+5. I want the Log files of last week ---- If we released product last week if we get any error on that client can see the Log
+6.How will i know if there is an error by just looking at logs?
+
+with log4j we can answer of all the questions
+
+2.Importing Log4j Into
+-------------------------------
+-- We have to define on Configuration file to control this logs....... If we dont define the configuration it will consider its own default configuration and with that default one it will execute only error logs..... Like error()/fatal().........
+-- If there are 100 of logs we can identify the logs by its Text of the Log method....
+--First create the object of Logger and call the getLogger() method from LogManager API....  We have to pass Class Path as Argument inside the getLogger Method..... Jar's are inside the LogManager API...
+Class Path --- classname.class.getName() --- This will give the class path ... we cant simply pass the classname... actually pass where we are in...
+--There are different types of methods available for different types of logs
+1.debug()
+2.info()
+3.error()
+4.fatal()
+5.warn()
+6.trace()
+---There is small difference between info() and debug() method
+--Each method will print in the output.... We can differenciate our log whethere its debug/info/error like that...
+How do we differenciate all those methods?
+We can see the log with its prefix... If its a debug its display the log and prefix with its method.
+
+What is the difference between System.out.println and Log4j?
+With help of Log Obj we are creating log and for each log we are giving one purpose...... But we can give the purpose with SYSO....
+yeah we can give as string but we cant be sure or there is no proof for the purpose
+
+---When to Use log. Error, debug and info methods in Selenium test cases------------
+1.Use log. Error() to log when elements are not displayed in the page or if any validations fail
+
+2.Use Log. Debug() : ---When each Selenium action is performed like click, SendKeys, getText()
+
+3.Use log.info():--  When operation is successfully completed ex: After loading page, or after any successful validations
+
+It’s just counterpart to log. Error()
+
+
+3.Importance of Log4j xml
+----------------------------------
+The Logger Obj Reference reads the Configuration files and whatever action defined in the Config file it will the action according to that....
+When we customize the Config file it will act based on the Default Config File there they have given only for error action... Config file has the Control.....
+
+1.Where to Log? -- Appenders Tag--- Console 
+--On the Console
+-- On the Separate file full log text
+--In the XML file inside the Appenders tag
+   There are two main tag in the XML configuration:--
+i --Appenders -- Where to log.. whether its on Console or File we need to pass that inside this Tag
+ii -- Loggers
+
+2.How to Log? --Appenders Tag -- Console -- PatterLayout
+
+3.What to Log? -- Loggers Tag
+There are two sub-section inside this Tag...
+i) Root level Tag -- This for entire XML.. Here we are actually control them... What type of log only error/debug/info/warn/fatal/trace like that... Whatever log we pass that will only print on the Console.....
+----trace --- When you want to print entire level we have to use trace Log it will print entire Log if we mention specific one it will print that Log only ex: if we give error it will print error Log only.....
+a)AppenderRef Tag --
+It will be there inside the Root level Tag... It will know what to print but it dont know where to print so with Appender Ref tag we have to give the Appenders name Like Console/File so it will know where to print... This tag refering the Appenders Tag it will go there and read where to print
+
+EX:------
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="error">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>
+
+--PatternLayout we can customize the pattern prefix to the message... This is also Customizable
+---Root is applicable for all the Package of Project.....
+--We can target Specfic Package and assign this Level.... When there is situation we need all the Log from Package a and Specific Level from One Package we can define that Specific Package inside the Logger Tag Which is inside the Loggers tag...Here we have to define the Class file name along with Package Name
+--additivity Tag
+when we have both Root level tag and Logger tag if we say run all in the Root level and run specific package in the Logger level may be the Class file inside the Logger level duplicated... So to avoid that duplication we can provide additivity is to false... So while running Root level it will exclude that Class file 
+--We can Run Package Wise....
+
+
+4.Understanding The XML File to Control Logging in TestCases
+---------------------------------------------------------------------------------
+-First we have to create a Package named resources at Project Level not inside our Class file package And inside this Package we have to create XML File to control our Logging of Class file.... And we have to add this resource path in the Java Build Path-- Inside Source path....Then only our Class File Will get to know where that XML File is Located... So While executing the Class file it will look in the Project Build Path....
+
+5.Logging on the File
+---------------------------
+---RollingFile Tag
+How to log in File instead of Console.... We have to add RollingFile Tag to define the Filename and File path in the fileName Attribute.... File Name should have .log extension....... In the AppenderRef Tag we have to give Name attribute value instead of Console attibute value  ... PatternLayout is same as In the Console Layout....
+
+--SizeBasedTriggeringPolicy Tag
+Once if the Size of the file reached the Size what we have given in this Tag as KB it will create a New File and it will not Concatenate with existing one....
+
+--filePattern 
+Once it reach the Size it will create the new File but what should be the Name of that File ... We have to give the filename in the filePattern atributes....It creates file name with TimeStamp ... Whenever it creates the new File After Reached the Size it will create new File in the path and the Name with TimeStamp what we give in this Attirbute.... If we dont have this Attribute Log4 will not know where to create and with what name should i create .... But for the First File it will create in the path and with the name what we have given in the fileName Attribute 
+
+--Properties Tag
+Property tag if we give name as basepath the control will come on our Project automatically after that give ./logs Folder...Inside this logs Folder where we kept the .log extension file ... The File what we want to Log should be the Project Level ....we can give file path by copy and pasting of the file directly but if someone is using our there this path wont work coz it is the local path of specific machine... so if we use basePath property it will give the path to the Project level independent of our machine so there after inside we can travel to our desired Location
+---So we can pass the File path Generically with help of basePath
+ 
+--The main important thing is Controlling log from Configuration File is The most Important thing
+
+
+--------------------------------------
+7.POM   -- Page Object Model / Page Chaning Model -- all the packages are integrated with each other
+--------------------------------------
+--What is Page Object Model Design Patten (POM): Page Object Model is a Design Pattern which has become popular in Selenium Test Automation. It is widely used design pattern in Selenium for enhancing test maintenance and reducing code duplication..
+
+-- POM is not Framework Its a Design Pattern or an Approch Integrated with Data Driven Framework and TestNG Framework
+--This is used to design the different different component in Systamatically....
+
+-Testcase method should be independent with each other.. For every testcase execution we close the browser and Open the new Browser... If we have 100 testcase we should close before next testcase execution begin... Because if we do an Execution on Same Browser we may get error coz we did not delete any cookies and may be our application  will crash or browser will crash or we may get blank page in the application... So good practise is after each execution we have to close the application and for new execution we have to open the new Browser... Try to avoid dependency between Each testcase.. For each Testcase Launch the new Browser and after execution quit the Browser.....
+
+--We use Page Factory pattern to initialize web elements which are defined in Page Objects/Object 
+
+Object Repository  
+-----------------------
+Collection of All Web Objects or Web Elements
+
+PageFactory
+------------------
+--We should initialize page objects using initElements() method from PageFactory Class as below, Once we call initElements() method, all elements will get initialized. PageFactory.initElements() static method takes the driver instance of the given class and the class type, and returns a Page Object with its fields fully initialized.
+
+Difference Between Page Objects and Page Factory:
+--------------------------------------------------------------
+--What is the difference between Page Object Model (POM) and Page Factory: Page Object is a class that represents a web page and hold the functionality and members. Page Factory is a way to initialize the web elements you want to interact with within the page object when you create an instance of it.
+
+Ex:
+1.For each Module/Page we will create separate class File inside the Same Packages named as Pages here we will give the Objects/Webelement Locators of the Page in the respective class files.... Because if we want to use same element for whole project or if we want to use the element multiple times we can define in the respective class files and we can also define the Method of the pages inside the class file of pages packages.. Sometimes One page is integrated with another one or more pages...
+2.In the another Package named as testcase Package we can create Testscript for respective class file of pages package....	
+3.We can create another package for an Environment Variables/config properties file like for URL, UserName, Password, Browser Driver
+4.In the another package we can create class file for Testdata.xlsx...
+5.Another package for TestUtility Funcitons like some Generic Functions, Screenshot(),  sendMail()..........
+6-.TestReport In another package
+7.In the Base Package or Parent Packaeg we can define some common functions for all testcase or things like maximizeWindow(), pageloadTimeOut(), implicitwait(), deleteAllCookies(), get(URL) those are common for all the testcase so we can define in the Parent package
+--From Parent Package we can inherit those things which we want... 
+
+Ex:
+--For each and every web page of application we have to create java class inside the pages Package.....Inside the base package create a class for some generic function like maximize window(), Implicit wait()...  
+
+TestBase
+1--Inside the TestBase class we create constructor of this class and created method for common things of all the Testclass java file.. Inside the constructor we initialize the config.properties file .. Inside the initialization method we read and assign file property to variable and assingning some more common activity of all the application.....
+
+Create page class and some generic variables and function in src/java/main....Inside the page folder we have to create Page class for each page in the application.....
+2.Inside the page class first we have to create object repository or page factory of the Page after that we have to initialize the Objects/Elements with help of PageFactory....
+
+LoginPage --- 
+2.--After creating the Object Repostory or Page Factory and Before creating any method for the Page class we have to initialize this PageFactory inside the Constructor of the LoginPage class
+PageFactory.initElements(driver, this):--
+In the PageFactory there is a method initElements will used to initialize the Objects or Elements... Here we are initializing the Page elements with the driver......so we have to pass two arguments one for driver and one for indicating the Page elements....This Driver is from Parent class there we have already defined that driver for that driver we have to assing this Page Class variables.........
+
+LoginPageTest---
+3.--Inside this class we have to extends parent class which is TestBase class before calling any method from that we have to call parent class constructor inside the child class constructor...Then only it will not give NullPointerException....We can call Initialization method of Parent class...... We have to create Object of its Page class which is LoginPage inside the BeforeTest() annotation so we can method of  LoginPage class method in the Testcase.... Each method in the LoginPage class is TestCase so we have to create TestCase for each method of LoginPage class in the LoginPageTest class.........
+--If the method return object of another another class we can store that in the object of that class in another class but we have to create object of the class that we are going to store....
+
+
+
+----------------------------------------------
+END to End FrameWork
+----------------------------------------------
+--Framework should be organized for better Maintance... Framework developement is not a set of Instruction its all about how we maintain the Testcase or Testdata....... 
+1.Testbase -->Which need to executed all the time.......Create reusable method for some common funtion for all the testcase like Invoking Browser.... Each test case should Mapping to this method we should not write this Invoking Browser all the time for all the Testcase .... If we want to change Chrome to IE for 1500 Testcase we should not hard code for 1500 times ..
+So we can mention that in one Method that should map to all the TestCase....
+
+1---NullPointerException:--
+We should not use == for comparing two values when we extracting values from properties files.... If we use the Body of the condition will not be executed instead it will throw an Exception saying NullPointerException...If we mention any variable inside the body and if we use that variable outside of the Body it has no life.... So use equals() ....
+equals() --Comparision of values in the Objects..
+== -- Is a reference comparison .. both object point to the same memory location
+2---FileNotFoundException:--
+The System cannot find the path specified
+3---NoSuchElementException:--
+There must be something wrong with an Object like Locators....
+4---ArrayIndexOutOfBoundException:--
+5---ArrayIndexOutOfBoundsException is a RuntimeException thrown only at runtime. The Java Compiler does not check for this error during the compilation of a program.
+--When we are sending two values per row the column size is 2 but index value is upto 1...
+--when we are sending values for three different row the size of the row is 3 but index value is upto 2	 
+6--ElementClickInterceptedException:--
+
+SureFirePlugin:---
+--To integrate Testng.xml file into Pom.xml file.... We have to Paste this inside the Build Tag
+
+--When we passing multiple data with DataProvider for every set of data it requires new Browser so it triggers new Browser it will not send the values in the Same Browser.... If we use BeforeTest annotaitons It will do the things only once before execution starts... So we will get Exception like NoSuchElementException --Unable to locate the Element....
+
+--Maven Resource Filtering :--
+This is used to integrate our Log4j.xml With POM.xml.....We have to Paste this inside the Build Tag ... Inside the child Resource this is inside the Resources.... If we dont give this our Maven will not look into that Log4j.xml and will not execute the Log level accordingly....
+
+--Testng.xml File :---
+If we use @AfterTest In class file and If we run from testng.xml file there we kept all the class inside one Test it will close the driver/browser in the order after all the execution happened even we mentioned @AfterTest it will not close the driver after execution of the class it will wait for all class execution....... But we have to close the Browser after completion every class execution so we have to mention every class inside the each Test tag in the testng.xml file..... Then only it will close the browser...
+
+
+--variable in Parent Class:--
+If we declare a variable in parent class and if you access in child class directly without assinging that to another variable if we executing the testcase in parallel we will get an error ... because that Parent class variable is has been overridden again and again by all the child class at a time... So to  avoid this we can define every class inside each Test tag .... If we define all the class inside one single Test tag in the testng.xml it will execute parallel mode..... But if we execute in sequential order we dont get an error...... 
+
+2.   Testng Listener 
+----------------------
+--If we use Listener we have to mention Listener Class-Name in the TestNG.xml file otherwise testng.xml will not have knowledge about Listener in the Test......
+It will invoke the method whatever we give in the Listener when execution gets failed......
+--ITestListener :--
+Its an Interface the class should implements this Interface ... Once we implemented this Interface it will provide the methods for Listener.... This interface is supported by testng ..... The class which implements the Interface is resposible to implements the all the methods in the Interface...... TestNG version above 7 wont get any error on the class name ... 
+--Adding Implements Method of ITestListener Interface
+Right Click On Class --- Source -- Override/Implements the Methods....
+--Whenever Listener encounter the failer on test execution automatically it will go to onTestFailure() and will execute the things what we give in this method....
+
+a. ITestListener contains the below method
+-------------------------------------------------
+1.onTestStart
+2.onTestSuccess
+3.onTestFailure
+4.onTestSkipped
+5.onTestFailedButWithinSuccessPercentage
+6.onTestFailedWithTimeout
+7.onStart
+8.onFinish
+--We should have Selenium implements inside the methods of  ITestListener
+
+b. --apache commons-io dependency:--  For FileUtils Class.... 
+----------------------------------------------------------------------
+This class contain copyFile() method will copy the screenshot which is taken by the Selenium and Selenium will keep it on Virtual Place... We need to copy the Screenshot image from Virtural place to Our Local Path then only we can see or use it....
+1.First convert our Driver to (TakesScreenShot)
+2.Call method getScreenshotAs(OututType.File)
+3.Copy img from source to destination with help of copyFile which is present inside the FileUtils class.....
+
+System.getProperty("user.dir") ---
+This will give you current project path.. On this path we can create one folder like reports and give the img Name that will copy from virtual place and paste it under reports ......
+
+ITestResult result   getMethod()      getMethodName():---
+But image name should be same as the Failure test method name ...... How would we know which testcase will fail? At Runtime our Framework should know the testcase name for this also we depend upon a Listener...... Before taking Screenshot we can capture the name of the method which got fail and we have to send that method name as Parameter to the Screenshot method then we can use this at path....... Result variable has the access to the test details of which got failed..... This variable gives the getMethod() on this method we can call getMethodName() this will give the name of the Testcase which got failed.....
+To Get Access of Fields of  Test class Using TestNG Listener:---
+Whenever we running the Test one Instance is created for the each Test that Instance driver we need......... In Java whenever you run any test it all runs based on Instance.... The Instance execution for that class we are accessing the field present in the class
+Ex:- result.getTestClass().getRealClass().getDeclaredField("fieldname").get(result.getInstance());
+--Here driver variable we used in the Screenshot method in the Parent class does not have any life or its not pointing to any Object......We have to tell to onTestFailure() to capture that variable and we have to pass that driver as argument to the Method of Screenshot in the Parent class and in the onTestFailure() also....... Then only it will capture the Screenshot of the particular driver......
+--We have to caste the driver to WebDriver because Testng dont have knowledge about this is reference variable of WebDriver.... First create driver variable with null value inside the onTestFailure() and assign that driver variable to the casting value.....and pass this variable in the parent class Screenshot method ............
+--If we do like this we will not get an error in parallel execution if not we will get an error.....
+
+
+3.  ExtentReport
+---------------------
+In every testcase we need ExtentReport Obj to call create.Test("MethodName") before test execution begin.... This method will create one test entry in the Reporting File for every Testcase..... So we can give this method inside the onTestStart() in the TestNG Listener..... Before actual testcase is starts to executing control will look into this method block Is there anything to do before executing the Testcase so we can give the createTest() inside this method..... Before executing every test it will look in this method....
+--If the method is Static all the variables which is present inside the Method also should
+
+a.ExtentTest:--
+-------------------
+--This class reference variable have the Log for the Passed testcase and Failed testcase. This only will keep listen on test execution and report back to ExtentReport reference variable.... If the Method gets failed we can print the Failed Log in the ExtentReport HTML file with help of getThrowable() Method........This method is in the reference variable of ITestResult Interface......
+result.getThrowable(): --- Here the result variable will hold the Failure Log...... This method will retrive the failure log......
+test.fail(result.getThrowable()); -->When the testcase is failed the failed testcase log will be retrived and send to fail method and we can see the failed log in the extent report file...
+***The above Extent Reporting Mechanism will work in sequential execution**
+
+b.ThreadLocal:--
+--------------------
+Ex: ThreadLocal<ExtentTest> tl = new ThreadLocal<ExtentTest>();
+tl.set(test);--Here basically sending all the new test object created by the class into ThreadLocal pool... This is responsible to give the correct object when you are reporting the Pass or Fail
+tl.get()
+--This is supported by Java and this is responsible for threadsafe of all the execution.... This will maintain thread safe for the class what we have mentioned with this class......Once we created the object if we want to maintain the thread safe we should set that to ThreadLocal class object.....
+--This is Class and like Pool.... When we execute the Testcases in parallel mode ExtentTest object variable which is test will be overridden by all the class at a time... So we have to make sure that variable as Threadsafe.... This class will take of avoiding overridden the instance of the class which we will mention with ThreadLocal<> class.... By using set() with object of ThreadLocal class we can store the instance of the class which we want to be thread safe..... ThreadLocal class obj can access the method set() and get() to store and retrive the instance of the class which we have associated with the ThreadLocal class....and it will map that instance with the class at run time and preventing overridding that instance..... We can mention this class in the Listener......
+--We will not get consistent report when we using ExtentReport in Parallel execution..... In sequencial one testcase starts to execute if it pass it will go to onTestSuccess else it will go to onTestFailure after that next execution will start... here we are using same ExtentTest instance which is test for creating the entry and at the end to report pass or fail but in Parallel First testcase method also create with that object and immediately next testcase method also will use the same object.. If first testcase gets failed and go to fail block in the Testng Listener by that time that instance overridden by next testcase method...
+
+c.Attaching Screenshot with ExtentReports :----
+---------------------------------------------------
+addScreenCaptureFromPath(String imgPath, String title) -- We can access this method with help of ExtentTest class instance
+
+4. Optimization Technique
+-------------------------------
+In our test if we have 10 testcase which we need to perform Regression test Will we create 10 page objects but this is not good we can do some optimization to avoiding so many Object creation in the Testcase class... By clicking of one method in the one of the testcase class it will navigate to another page ... If we have that method already in another testcase class there itself we can create the object of another navigation page and we can return that object and we can use both clicking and that Object in another Testcase class... By this we can avoid that having everytime in our testcase class...
+--We have to make sure which button will trigger going to another page in that button only we write Object of another page and returning there itself...
+
+5.Optimizing Framework
+-------------------------------
+1.How to Parameterize Jenkin build with different browsers execution?
+
+--If we want to execute our testcase in the Chrome we are setting that in the Properties file......After pushing our code into Git or any Version Control if we want to execute our testcase in differenct browser we have to pull our code and make changes and push into Git then we run... Here we are getting browser type Properties file but we can send the browser type with Maven ....
+
+a.We can send the browser type through Maven cmd on fly instead of sending through Properties file.....From Maven also we can send parameter with -D this commond..... -D indicates that there is a parameter... we have to give the Parameter name along with -D and assign a value to that .....
+EX:---  -Dbrowser=chrome
+-Wherever it sees the browser parameter it will set the value as chrome...... 
+--How do we extracting the parameter value from Maven in our Project?
+Basically Maven treats all the properties as System Properties.... Normally we creating the Obj for the Properties file in java and call getProperty() method to extract the value..... In Maven instead of Obj we use System as Maven treats all the Properties as System Properties...... If our code sees any System Property it will go and search in the Maven..... we can store the property value in our code and use it anywhere in the Project......
+Adv:-- Adv is we are controlling the browser type for the test execution through the commond not by the code....If any business people ask we can give the commond and ask them to run we no need to go to our code and change the value everytime........
+
+b.Parameterizing Job with multiple browser options:--
+In Jenkins select This project is parameterized option and create a Jenkins variable and give the option for the variable... This variable is a Property ...But this is incomplete how the option we have selected in Jenkins will be executed with that Option...We control on which browser we want to execute in Maven....... When we select the driver option from the Jenkins that will assign to the Maven property commend which is -Dbrowser then only our code have the knowledge to execute the code in the given browser ........When we set the Goals in the Jenkins for the Build there itself we can assign the Jenkins variable to the Maven Parameter variable.... Jenkins variable is not connected with our code through Maven only we can assign Jenkin variable and can access in our code....  $ indicates Jenkins variable ... When we select the driver from the Option that value is assinged to the Maven property variable then only our code have the knowledge about to execute the testcase in the selected driver..... We integrate with Jenkin global variable to Maven variable....
+Ex :-- test -Dbrowser=$browser
+--This is how we can execute our framework in all the driver without relying our code... We can select the driver from the Jenkins and we can execute our code in the specific driver......
+
+Configure Section:- In Jenkin this Section is used to modify the existing Build....
+
+2.Coding Standards to achive eccapsulation in framework:
+---------------------------------------------------------------------
+In a class variable should be declared as Private and method should be declared as Public...... Everything should gone through by calling the method..... This is the technique of writing good program in Java..... We should give either Public or Private but have to give Private.... If we declare as Private the class which inherits this class cannot inherit the variable those variables are hidden to the child class otherwise we can change or modify those variables in the child class to avoid this variable should be declared as private... We can only access in its own class we cant access anywhere in the Framework...
+we are avoiding using driver.findElement in our Framework but if you declare variable as public we can call that variable in the driver.findElement() method inside another class... Because everything should be come through method thats why we are avoiding using driver.fineElemetn() method.... If we simply call the variable we cant get the Log but if we call the method we can get that variable and Log as well also.... This is coding Standard.....
+
+Four Priciples of OOPs:
+1.Encapsulation
+2.Abstraction
+3.Inheritance
+4.Polymorphism
+
+How to achive Encapsulation in Selenium Framework:
+By making data/variables as Private and make that accessable method as Public to hide the data implementation...
+
+Encapsulation:--- is the mechanism of hiding of data implementation by restricting access to public.Instance variables are kept Private and accessor methods are made public to achive this
+
+3.Removing hard code paths in Framework by generating paths dynamically:
+------------------------------------------------------------------------------------------
+
+
+
+
+
+4.How to execute Chrome in Head Less Mode?   --  chromeheadless
+--------------------------------------------------------
+what is Headless execution?
+--When we run the testcase chrome not get open instead Chrome binary will open but still execution will happen... This is little fast the head chrome and has some adv ... when test execution are happening if we do any other operation in the system that might affect the chrome may our test get failed..... In this method test will execute in the background  chrome binary but which we cant see in the screen......
+
+ChromeOptions :--
+ It gives many options we can inject that in our chrome driver.....We can pass this class reference variable into our driver Object..... ChromeOptions class has the addArguments() method in this method we can pass the "headless" arguments as String .... If we pass ChromeOptions class obj into ChromeDriver() class our driver will be invoked as headless chromebrowser.... Our driver will check the reference variable of chromeoptions class to make sure whether we have given any options or not if it is it will invoke the browser according to the behaviour........
+
+--We can mention both head and headless in our code by using IF statement and it will be executed based on the value we send through Maven or Jenkins or Properties file........ We can add this to Build Parameterized in Jenkins.....
+
+--options.addArguments("headless") is the heart of headless chrome..... Contains() will check substring of the word..... If we pass options ref variable of ChromeOptions class into ChromeDriver class and driver  will check  the behaviour that attached with options if there is no behaviour it will skip the options variable and will execute the Chrome in head mode....
+
+
+5.How inheritance is achieved in Framework?
+
+6.Where are Interfaces used in the Framework?
+
+7.Can driver be static or non-static?
+--If we make driver variable as static that variable will be shared across all the testcase but no new copy will be created it will share the existing one.... Second testcase will override the existing variable but wont create new object.... Static means same object value will be shared across all the testcase ..... If we run in sequential mode we can make a driver variable as static because at a time only one test execution will happen.... If we run in sequential its better we use static for driver variable because no new memory will be created for the variable.....If we run 100 testcase only one driver variable is allocated in heap memory ... With that variable only 100 testcase will be executed if we dont put static for 100 testcase 100 variable will be created for each test execution in the heap memory ... If we use static in parallel we may get NullPointerException....
+--Even if we have static for parallel execution but if we have local variable in the testcase class then there is no affect.....
+
+8.Can there be multiple @Test method in one single class?
+We have to design our Framework based on Page of the application or based on Module of the application.... If we have 100 testcase we should not create 100 testclass... If the testcase belongs to same page or module we can create the testcase in same class.... and we no need to create new test tag in the testng.xml file as well for 100 testcase....
