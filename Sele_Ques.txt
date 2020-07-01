@@ -1,0 +1,5 @@
+Can we automate all the testcase?
+--It is impossible to automate all testing, so it is important to determine what test cases should be automated first. ... Tests that are only performed a few times are better left for manual testing. Good test cases for automation are ones that are run frequently and require large amounts of data to perform the same action.
+
+When should we automate test cases?
+Are you planning on simultaneous running of test cases? When your testing demands that you run the same set of test cases simultaneously on more than one machine, then you need to use automation testing. With manual testing, you cannot type the same test cases to run exactly at the same time on several machines.
