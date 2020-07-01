@@ -1,0 +1,3 @@
+
+POM
+Testcase method should be independent with each other.. For every testcase execution we close the browser and Open the new Browser... If we have 100 testcase we should close before next testcase execution begin... Because if we do an Execution on Same Browser we may get error coz we did not delete any cookies and may be our application  will crash or browser will crash or we may get blank page in the application... So good practise is after each execution we have to close the application and for new execution we have to open the new Browser... Try to avoid dependency between Each testcase.. For each Testcase Launch the new Browser and after execution quit the Browser
